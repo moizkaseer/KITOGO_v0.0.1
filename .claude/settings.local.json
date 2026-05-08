@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"D:\\\\Downlaods\\\\kitogo\\\\KITOGO_v0.0.1\" -Force | Select-Object Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"Directory\"}else{\"File\"}}} | Sort-Object Type, Name)",
+      "PowerShell(Get-ChildItem -Path \"D:\\\\Downlaods\\\\kitogo\\\\KITOGO_v0.0.1\\\\kitogo\\\\src\" -Recurse -Force | Where-Object { -not $_.PSIsContainer } | Select-Object @{Name=\"RelativePath\"; Expression={$_.FullName -replace [regex]::Escape\\(\"D:\\\\Downlaods\\\\kitogo\\\\KITOGO_v0.0.1\\\\kitogo\\\\src\\\\\"\\)}} | Sort-Object RelativePath)",
+      "PowerShell(Get-ChildItem -Path \"D:\\\\Downlaods\\\\kitogo\\\\KITOGO_v0.0.1\" | Where-Object { -not $_.PSIsContainer } | Select-Object Name)",
+      "PowerShell(Get-ChildItem -Path \"D:\\\\Downlaods\\\\kitogo\\\\KITOGO_v0.0.1\" -Depth 0 | Where-Object { $_.Name -notmatch '^\\\\.' -or $_.Name -eq '.claude' -or $_.Name -eq '.git' } | Select-Object Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"Directory\"}else{\"File\"}}} | Format-Table -AutoSize)",
+      "Bash(Get-Content \"C:\\\\Users\\\\Dell\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Downlaods-kitogo-KITOGO-v0-0-1\\\\c6bda045-c445-44e3-b997-8e374fc87532\\\\tasks\\\\bvehuxhs9.output\")",
+      "Bash(Select-Object -Last 20)",
+      "Bash(Get-ChildItem -Path \"D:\\\\Downlaods\\\\kitogo\\\\KITOGO_v0.0.1\\\\kitogo\\\\src\" -Recurse -Directory)",
+      "Bash(Select-Object FullName)",
+      "Bash(Sort-Object FullName)"
+    ]
+  }
+}

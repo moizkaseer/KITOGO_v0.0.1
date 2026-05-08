@@ -1,0 +1,677 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {
+    "hyperedges": [
+      {
+        "id": "nextjs_project_toolchain",
+        "label": "Next.js Project Toolchain \u00e2\u20ac\u201d ESLint + PostCSS/Tailwind + Next Config forming the build and lint pipeline",
+        "nodes": [
+          "eslint_config",
+          "postcss_config",
+          "next_config"
+        ],
+        "relation": "form",
+        "confidence": "INFERRED",
+        "confidence_score": 0.85,
+        "source_file": "kitogo/eslint.config.mjs"
+      },
+      {
+        "id": "nextjs_app_entry_points",
+        "label": "Next.js App Router Entry Points \u00e2\u20ac\u201d layout.tsx + page.tsx + next-env.d.ts compose the app shell",
+        "nodes": [
+          "app_layout",
+          "app_page",
+          "next_env_dts"
+        ],
+        "relation": "implement",
+        "confidence": "INFERRED",
+        "confidence_score": 0.85,
+        "source_file": "kitogo/src/app/layout.tsx"
+      },
+      {
+        "id": "kitogo_triage_flow",
+        "label": "KITOGO Clinical Triage Flow \u00e2\u20ac\u201d AI Agent ingests patient contact, applies ESI protocol, writes structured handoff to EHR",
+        "nodes": [
+          "kitogo_ai_triage_concept",
+          "esi_triage_protocol",
+          "ehr_structured_handoff"
+        ],
+        "relation": "participate_in",
+        "confidence": "EXTRACTED",
+        "confidence_score": 0.95,
+        "source_file": "KITOGO_Website_v1.1.0.html"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "label": "eslint.config.mjs",
+      "file_type": "code",
+      "source_file": "eslint.config.mjs",
+      "source_location": "L1",
+      "id": "eslint_config_mjs",
+      "community": 7,
+      "norm_label": "eslint.config.mjs"
+    },
+    {
+      "label": "next-env.d.ts",
+      "file_type": "code",
+      "source_file": "next-env.d.ts",
+      "source_location": "L1",
+      "id": "next_env_d_ts",
+      "community": 8,
+      "norm_label": "next-env.d.ts"
+    },
+    {
+      "label": "next.config.ts",
+      "file_type": "code",
+      "source_file": "next.config.ts",
+      "source_location": "L1",
+      "id": "next_config_ts",
+      "community": 9,
+      "norm_label": "next.config.ts"
+    },
+    {
+      "label": "postcss.config.mjs",
+      "file_type": "code",
+      "source_file": "postcss.config.mjs",
+      "source_location": "L1",
+      "id": "postcss_config_mjs",
+      "community": 10,
+      "norm_label": "postcss.config.mjs"
+    },
+    {
+      "label": "layout.tsx",
+      "file_type": "code",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L1",
+      "id": "src_app_layout_tsx",
+      "community": 4,
+      "norm_label": "layout.tsx"
+    },
+    {
+      "label": "RootLayout()",
+      "file_type": "code",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L20",
+      "id": "app_layout_rootlayout",
+      "community": 4,
+      "norm_label": "rootlayout()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_page_tsx",
+      "community": 11,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "ESLint Configuration",
+      "file_type": "code",
+      "source_file": "kitogo/eslint.config.mjs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "eslint_config",
+      "community": 2,
+      "norm_label": "eslint configuration"
+    },
+    {
+      "label": "Next.js TypeScript Environment Declarations",
+      "file_type": "code",
+      "source_file": "kitogo/next-env.d.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "next_env_dts",
+      "community": 2,
+      "norm_label": "next.js typescript environment declarations"
+    },
+    {
+      "label": "Next.js Configuration",
+      "file_type": "code",
+      "source_file": "kitogo/next.config.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "next_config",
+      "community": 2,
+      "norm_label": "next.js configuration"
+    },
+    {
+      "label": "PostCSS Configuration",
+      "file_type": "code",
+      "source_file": "kitogo/postcss.config.mjs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "postcss_config",
+      "community": 5,
+      "norm_label": "postcss configuration"
+    },
+    {
+      "label": "Root App Layout",
+      "file_type": "code",
+      "source_file": "kitogo/src/app/layout.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "app_layout",
+      "community": 0,
+      "norm_label": "root app layout"
+    },
+    {
+      "label": "Home Page Component",
+      "file_type": "code",
+      "source_file": "kitogo/src/app/page.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "app_page",
+      "community": 0,
+      "norm_label": "home page component"
+    },
+    {
+      "label": "Root CLAUDE.md \u00e2\u20ac\u201d Graphify Knowledge Graph Rules",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "root_claude_md",
+      "community": 6,
+      "norm_label": "root claude.md a\u20ac\u201d graphify knowledge graph rules"
+    },
+    {
+      "label": "KITOGO Website v1.1.0 \u00e2\u20ac\u201d Marketing Landing Page",
+      "file_type": "document",
+      "source_file": "KITOGO_Website_v1.1.0.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": "KITOGO Health, Inc.",
+      "contributor": null,
+      "id": "kitogo_website_html",
+      "community": 1,
+      "norm_label": "kitogo website v1.1.0 a\u20ac\u201d marketing landing page"
+    },
+    {
+      "label": "AGENTS.md \u00e2\u20ac\u201d Next.js Agent Rules",
+      "file_type": "document",
+      "source_file": "kitogo/AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "agents_md",
+      "community": 3,
+      "norm_label": "agents.md a\u20ac\u201d next.js agent rules"
+    },
+    {
+      "label": "kitogo/CLAUDE.md \u00e2\u20ac\u201d Agent Rules Reference",
+      "file_type": "document",
+      "source_file": "kitogo/CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "kitogo_claude_md",
+      "community": 3,
+      "norm_label": "kitogo/claude.md a\u20ac\u201d agent rules reference"
+    },
+    {
+      "label": "Next.js Project README",
+      "file_type": "document",
+      "source_file": "kitogo/README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme",
+      "community": 0,
+      "norm_label": "next.js project readme"
+    },
+    {
+      "label": "File Icon SVG (generic document icon)",
+      "file_type": "image",
+      "source_file": "kitogo/public/file.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "public_file_svg",
+      "community": 12,
+      "norm_label": "file icon svg (generic document icon)"
+    },
+    {
+      "label": "Globe Icon SVG (web/international icon)",
+      "file_type": "image",
+      "source_file": "kitogo/public/globe.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "public_globe_svg",
+      "community": 13,
+      "norm_label": "globe icon svg (web/international icon)"
+    },
+    {
+      "label": "Next.js Logo SVG",
+      "file_type": "image",
+      "source_file": "kitogo/public/next.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "public_next_svg",
+      "community": 0,
+      "norm_label": "next.js logo svg"
+    },
+    {
+      "label": "Vercel Logomark SVG (triangle)",
+      "file_type": "image",
+      "source_file": "kitogo/public/vercel.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "public_vercel_svg",
+      "community": 0,
+      "norm_label": "vercel logomark svg (triangle)"
+    },
+    {
+      "label": "Window/Browser Icon SVG",
+      "file_type": "image",
+      "source_file": "kitogo/public/window.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "public_window_svg",
+      "community": 14,
+      "norm_label": "window/browser icon svg"
+    },
+    {
+      "label": "Geist Font System (Geist Sans + Geist Mono via next/font/google)",
+      "file_type": "rationale",
+      "source_file": "kitogo/src/app/layout.tsx",
+      "source_location": "line 2-13",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "geist_font_usage",
+      "community": 0,
+      "norm_label": "geist font system (geist sans + geist mono via next/font/google)"
+    },
+    {
+      "label": "Tailwind CSS via PostCSS Plugin Pattern",
+      "file_type": "rationale",
+      "source_file": "kitogo/postcss.config.mjs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "tailwindcss_postcss_integration",
+      "community": 5,
+      "norm_label": "tailwind css via postcss plugin pattern"
+    },
+    {
+      "label": "KITOGO AI Patient Triage Agent \u00e2\u20ac\u201d Clinical-grade AI for 24/7 intake, symptom assessment, and routing",
+      "file_type": "rationale",
+      "source_file": "KITOGO_Website_v1.1.0.html",
+      "source_location": "meta description, hero section",
+      "source_url": "https://kitogo.health/",
+      "captured_at": null,
+      "author": "KITOGO Health, Inc.",
+      "contributor": null,
+      "id": "kitogo_ai_triage_concept",
+      "community": 1,
+      "norm_label": "kitogo ai patient triage agent a\u20ac\u201d clinical-grade ai for 24/7 intake, symptom assessment, and routing"
+    },
+    {
+      "label": "ESI (Emergency Severity Index) Triage Protocol",
+      "file_type": "rationale",
+      "source_file": "KITOGO_Website_v1.1.0.html",
+      "source_location": "pin-section step ii, hero float-card",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "esi_triage_protocol",
+      "community": 1,
+      "norm_label": "esi (emergency severity index) triage protocol"
+    },
+    {
+      "label": "Structured EHR Handoff \u00e2\u20ac\u201d Clinical summary written to EHR after triage",
+      "file_type": "rationale",
+      "source_file": "KITOGO_Website_v1.1.0.html",
+      "source_location": "pin-section step iii",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "ehr_structured_handoff",
+      "community": 1,
+      "norm_label": "structured ehr handoff a\u20ac\u201d clinical summary written to ehr after triage"
+    },
+    {
+      "label": "Next.js App Router Pattern (layout.tsx + page.tsx)",
+      "file_type": "rationale",
+      "source_file": "kitogo/src/app/layout.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "nextjs_app_router_pattern",
+      "community": 0,
+      "norm_label": "next.js app router pattern (layout.tsx + page.tsx)"
+    },
+    {
+      "label": "Graphify Knowledge Graph \u00e2\u20ac\u201d graph at graphify-out/",
+      "file_type": "rationale",
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "graphify_knowledge_graph",
+      "community": 6,
+      "norm_label": "graphify knowledge graph a\u20ac\u201d graph at graphify-out/"
+    },
+    {
+      "label": "Next.js Breaking Changes Warning \u00e2\u20ac\u201d read node_modules/next/dist/docs before coding",
+      "file_type": "rationale",
+      "source_file": "kitogo/AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "nextjs_breaking_changes_warning",
+      "community": 3,
+      "norm_label": "next.js breaking changes warning a\u20ac\u201d read node_modules/next/dist/docs before coding"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "src_app_layout_tsx",
+      "target": "app_layout_rootlayout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "kitogo/eslint.config.mjs",
+      "source_location": null,
+      "weight": 0.6,
+      "source": "eslint_config",
+      "target": "next_config"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "kitogo/next-env.d.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "next_env_dts",
+      "target": "next_config"
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "kitogo/postcss.config.mjs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "postcss_config",
+      "target": "tailwindcss_postcss_integration"
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "kitogo/src/app/layout.tsx",
+      "source_location": "lines 2-13",
+      "weight": 1.0,
+      "source": "app_layout",
+      "target": "geist_font_usage"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "kitogo/src/app/layout.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "app_layout",
+      "target": "app_page"
+    },
+    {
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "kitogo/src/app/layout.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "app_layout",
+      "target": "nextjs_app_router_pattern"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "kitogo/src/app/page.tsx",
+      "source_location": "line 9",
+      "weight": 1.0,
+      "source": "app_page",
+      "target": "public_next_svg"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "kitogo/src/app/page.tsx",
+      "source_location": "line 45",
+      "weight": 1.0,
+      "source": "app_page",
+      "target": "public_vercel_svg"
+    },
+    {
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "kitogo/src/app/page.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "app_page",
+      "target": "nextjs_app_router_pattern"
+    },
+    {
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.55,
+      "source_file": "KITOGO_Website_v1.1.0.html",
+      "source_location": null,
+      "weight": 0.5,
+      "source": "kitogo_website_html",
+      "target": "app_page"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "root_claude_md",
+      "target": "graphify_knowledge_graph"
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "KITOGO_Website_v1.1.0.html",
+      "source_location": "hero section",
+      "weight": 1.0,
+      "source": "kitogo_website_html",
+      "target": "kitogo_ai_triage_concept"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "KITOGO_Website_v1.1.0.html",
+      "source_location": "pin-section step ii, hero float-card",
+      "weight": 1.0,
+      "source": "kitogo_website_html",
+      "target": "esi_triage_protocol"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "KITOGO_Website_v1.1.0.html",
+      "source_location": "pin-section step iii",
+      "weight": 1.0,
+      "source": "kitogo_website_html",
+      "target": "ehr_structured_handoff"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "kitogo/CLAUDE.md",
+      "source_location": "line 1",
+      "weight": 1.0,
+      "source": "kitogo_claude_md",
+      "target": "agents_md"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "kitogo/AGENTS.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "agents_md",
+      "target": "nextjs_breaking_changes_warning"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "kitogo/README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme",
+      "target": "nextjs_app_router_pattern"
+    },
+    {
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "kitogo/src/app/layout.tsx",
+      "source_location": null,
+      "weight": 0.5,
+      "source": "geist_font_usage",
+      "target": "tailwindcss_postcss_integration"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "KITOGO_Website_v1.1.0.html",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "kitogo_ai_triage_concept",
+      "target": "esi_triage_protocol"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "KITOGO_Website_v1.1.0.html",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "kitogo_ai_triage_concept",
+      "target": "ehr_structured_handoff"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "nextjs_project_toolchain",
+      "label": "Next.js Project Toolchain \u00e2\u20ac\u201d ESLint + PostCSS/Tailwind + Next Config forming the build and lint pipeline",
+      "nodes": [
+        "eslint_config",
+        "postcss_config",
+        "next_config"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "kitogo/eslint.config.mjs"
+    },
+    {
+      "id": "nextjs_app_entry_points",
+      "label": "Next.js App Router Entry Points \u00e2\u20ac\u201d layout.tsx + page.tsx + next-env.d.ts compose the app shell",
+      "nodes": [
+        "app_layout",
+        "app_page",
+        "next_env_dts"
+      ],
+      "relation": "implement",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "kitogo/src/app/layout.tsx"
+    },
+    {
+      "id": "kitogo_triage_flow",
+      "label": "KITOGO Clinical Triage Flow \u00e2\u20ac\u201d AI Agent ingests patient contact, applies ESI protocol, writes structured handoff to EHR",
+      "nodes": [
+        "kitogo_ai_triage_concept",
+        "esi_triage_protocol",
+        "ehr_structured_handoff"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "KITOGO_Website_v1.1.0.html"
+    }
+  ]
+}

@@ -1,0 +1,2978 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>KITOGO — Clinical-grade AI for patient triage and intake</title>
+  <meta name="description" content="KITOGO's AI agent handles patient intake, symptom assessment, and routing across phone, web, and SMS — 24/7. HIPAA-compliant, SOC 2 Type II certified, integrates with Epic, Cerner, athenahealth and more."/>
+  <meta name="keywords" content="patient triage, AI healthcare, clinical intake, HIPAA AI, healthcare automation, ESI triage, Epic integration, patient routing, healthcare AI agent"/>
+  <meta name="author" content="KITOGO Health, Inc."/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://kitogo.health/"/>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://kitogo.health/"/>
+  <meta property="og:title" content="KITOGO — Triage every patient in under 60 seconds"/>
+  <meta property="og:description" content="The clinical-grade AI agent for patient triage and intake. Now triaging 2.5M+ patient calls monthly across 14 healthcare networks."/>
+  <meta property="og:image" content="https://kitogo.health/og-image.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:site_name" content="KITOGO"/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:url" content="https://kitogo.health/"/>
+  <meta name="twitter:title" content="KITOGO — Triage every patient in under 60 seconds"/>
+  <meta name="twitter:description" content="Clinical-grade AI for patient triage. HIPAA-compliant. Integrates with Epic, Cerner, athenahealth."/>
+  <meta name="twitter:image" content="https://kitogo.health/twitter-card.png"/>
+  <meta name="twitter:site" content="@kitogohealth"/>
+
+  <!-- Theme -->
+  <meta name="theme-color" content="#0B5FFF"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+
+  <!-- Favicon (data URI placeholder — replace with real assets) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B5FFF'/%3E%3Ctext x='16' y='22' font-family='Inter,sans-serif' font-size='18' font-weight='800' text-anchor='middle' fill='white'%3EK%3C/text%3E%3C/svg%3E"/>
+
+  <!-- Structured data: Organization + SoftwareApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://kitogo.health/#organization",
+        "name": "KITOGO Health, Inc.",
+        "url": "https://kitogo.health/",
+        "logo": "https://kitogo.health/logo.png",
+        "sameAs": [
+          "https://twitter.com/kitogohealth",
+          "https://www.linkedin.com/company/kitogo"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "Sales",
+          "email": "sales@kitogo.health"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "KITOGO",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Web, iOS, Android",
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "USD",
+          "lowPrice": "1500",
+          "highPrice": "12000"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "47"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+  <!-- styles moved to kitogo/src/app/globals.css -->
+</head>
+<body>
+
+  <!-- Page loader -->
+  <div class="page-loader">
+    <div class="page-loader-mark">
+      <span class="page-loader-dot"></span>
+      KITOGO
+    </div>
+  </div>
+
+  <!-- Sticky mobile CTA -->
+  <a href="#" class="mobile-cta">Book a demo</a>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-left">
+      <a href="#" class="nav-logo">
+        <span class="nav-logo-dot"></span>
+        KITOGO
+      </a>
+      <div class="nav-live">
+        <span class="nav-live-dot"></span>
+        <span id="liveCount">2,847</span> triaged today
+      </div>
+      <button id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Toggle dark mode">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </div>
+    <ul class="nav-menu" id="navMenu">
+      <span class="nav-indicator" id="navIndicator"></span>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#features">Platform</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#security">Security</a></li>
+      <li><a href="#cases">Customers</a></li>
+      <li><a href="#" class="nav-cta">Book demo</a></li>
+    </ul>
+  </nav>
+
+
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-pill">
+          <span class="hero-pill-badge">New</span>
+          <span>Now triaging 2.5M+ patient calls monthly</span>
+        </div>
+        <h1>
+          <span class="word" style="animation-delay: 100ms">Triage</span>
+          <span class="word" style="animation-delay: 200ms">every</span>
+          <span class="word" style="animation-delay: 300ms">patient</span><br/>
+          <span class="word" style="animation-delay: 400ms">in</span>
+          <span class="word serif" style="animation-delay: 550ms">under 60</span>
+          <span class="word" style="animation-delay: 750ms">seconds.</span>
+        </h1>
+        <p class="hero-sub">
+          KITOGO's AI agent handles patient intake, symptom assessment, and routing across phone, web, and SMS — 24/7. Your staff gets a structured summary and a prioritized queue.
+        </p>
+        <div class="hero-actions">
+          <a href="#" class="btn btn-primary">Book a demo</a>
+          <a href="#" class="btn btn-ghost">Watch 2-min video</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-num"><span data-count="42" data-suffix="">0</span><span class="unit">%</span></div>
+            <div class="hero-stat-label">Faster intake time</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num"><span data-count="60" data-suffix="">0</span><span class="unit">%</span></div>
+            <div class="hero-stat-label">Fewer false alarms</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num"><span data-count="38" data-suffix="">0</span><span class="unit">s</span></div>
+            <div class="hero-stat-label">Average routing time</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live call panel -->
+      <div class="hero-visual">
+        <div class="float-card float-card-1">
+          <div class="label">Triage acuity</div>
+          <div class="value" id="acuityValue" style="color: var(--danger);">ESI Level 2</div>
+          <div class="delta" id="acuityDelta">↑ Escalating to nurse</div>
+        </div>
+
+        <div class="float-card float-card-2">
+          <div class="label">Confidence</div>
+          <div class="value">98.7%</div>
+          <div class="delta">+0.3% vs baseline</div>
+        </div>
+
+        <div class="call-panel">
+          <div class="scenario-tabs">
+            <button class="scenario-tab active" data-scenario="emergency">Emergency</button>
+            <button class="scenario-tab" data-scenario="routine">Routine</button>
+            <button class="scenario-tab" data-scenario="pediatric">Pediatric</button>
+          </div>
+          <div class="call-header">
+            <div class="call-status">
+              <span class="pulse-dot"></span>
+              Live call · Inbound
+            </div>
+            <div class="call-time" id="call-time">00:00:42</div>
+          </div>
+
+          <div class="conversation" id="convo"></div>
+
+          <div class="triage-banner" id="banner" style="opacity:0;">
+            <span class="triage-banner-pulse"></span>
+            <span id="bannerText">Escalating to live nurse · ESI Level 2 · ETA 12 sec</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCROLL-PINNED STORY -->
+  <section class="pin-section">
+    <div class="pin-track">
+      <div class="pin-stage">
+        <div class="pin-text-wrap">
+          <div class="pin-text active" data-step="0">
+            <div class="pin-step-num">i · First contact</div>
+            <h2>The phone <span class="serif">never</span> rings twice.</h2>
+            <p>Patient reaches you by phone, web, or SMS. KITOGO answers in under a second — no hold queue, no menu tree. Conversation begins immediately.</p>
+          </div>
+          <div class="pin-text" data-step="1">
+            <div class="pin-step-num">ii · Clinical reasoning</div>
+            <h2>Symptoms in. <span class="serif">Triage</span> out.</h2>
+            <p>The agent applies your configured protocol — ESI, Manchester, or custom. Red-flag symptoms escalate to a live nurse within 30 seconds, automatically.</p>
+          </div>
+          <div class="pin-text" data-step="2">
+            <div class="pin-step-num">iii · Structured handoff</div>
+            <h2>Your team gets <span class="serif">everything.</span></h2>
+            <p>A clinical summary lands in your EHR. Chief complaint, history, vitals, acuity, and next step — all structured, all auditable, ready for human review.</p>
+          </div>
+        </div>
+        <div class="pin-visual">
+          <div class="pin-frame active" data-frame="0">
+            <div class="frame-phone">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+          </div>
+          <div class="pin-frame" data-frame="1">
+            <div class="frame-protocol">
+              <div class="protocol-row"><span>Chief complaint</span><span class="check">✓ captured</span></div>
+              <div class="protocol-row"><span>Symptom duration</span><span class="check">✓ 60 min</span></div>
+              <div class="protocol-row"><span>Pain radiation</span><span class="check">✓ left arm</span></div>
+              <div class="protocol-row"><span>Red flag detected</span><span class="alert">⚠ ESI Level 2</span></div>
+            </div>
+          </div>
+          <div class="pin-frame" data-frame="2">
+            <div class="frame-ehr">
+              <div class="frame-ehr-line"><span class="key">patient_id</span><span class="pipe"> = </span><span class="val">P-48291</span></div>
+              <div class="frame-ehr-line"><span class="key">complaint</span><span class="pipe"> = </span><span class="val">"Chest pain, 60min"</span></div>
+              <div class="frame-ehr-line"><span class="key">acuity</span><span class="pipe"> = </span><span class="val" style="color: var(--danger);">ESI_2</span></div>
+              <div class="frame-ehr-line"><span class="key">route</span><span class="pipe"> = </span><span class="val">ED_immediate</span></div>
+              <div class="frame-ehr-line"><span class="key">summary_doc</span><span class="pipe"> = </span><span class="val">attached.pdf</span></div>
+              <div class="frame-ehr-line"><span class="key">queue_position</span><span class="pipe"> = </span><span class="val">1</span></div>
+            </div>
+          </div>
+          <div class="pin-progress">
+            <span class="pin-dot active"></span>
+            <span class="pin-dot"></span>
+            <span class="pin-dot"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <section class="marquee-section">
+    <div class="marquee-label">Trusted across 230+ healthcare networks</div>
+    <div class="marquee">
+      <div class="marquee-item">Mercy Regional</div>
+      <div class="marquee-item">Cleveland Health</div>
+      <div class="marquee-item">Pacific Care Group</div>
+      <div class="marquee-item">Northshore Medical</div>
+      <div class="marquee-item">Summit Urgent Care</div>
+      <div class="marquee-item">Atlantic Health</div>
+      <div class="marquee-item">Vista Clinics</div>
+      <div class="marquee-item">Riverside Medical</div>
+      <!-- duplicate for seamless loop -->
+      <div class="marquee-item">Mercy Regional</div>
+      <div class="marquee-item">Cleveland Health</div>
+      <div class="marquee-item">Pacific Care Group</div>
+      <div class="marquee-item">Northshore Medical</div>
+      <div class="marquee-item">Summit Urgent Care</div>
+      <div class="marquee-item">Atlantic Health</div>
+      <div class="marquee-item">Vista Clinics</div>
+      <div class="marquee-item">Riverside Medical</div>
+    </div>
+  </section>
+
+  <!-- SHOWCASE — DARK -->
+  <section style="padding: 96px 0;">
+    <div class="showcase">
+      <div class="showcase-grid">
+        <div class="reveal">
+          <span class="eyebrow">The problem</span>
+          <h2>Front desks are <span class="serif">drowning</span> in routine calls.</h2>
+          <p>The average healthcare front desk handles 200+ calls per day. 70% are routine triage, scheduling, or symptom questions. Staff burn out. Patients wait. Real emergencies get buried.</p>
+        </div>
+
+        <div class="stat-stack reveal">
+          <div class="stat-row">
+            <span class="stat-row-label">Average wait time on hold</span>
+            <span class="stat-row-value">8<span class="accent">m</span> 42<span class="accent">s</span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-row-label">Calls abandoned daily</span>
+            <span class="stat-row-value">31<span class="accent">%</span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-row-label">Front desk staff turnover</span>
+            <span class="stat-row-value">47<span class="accent">%</span>/yr</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-row-label">Misrouted urgent cases</span>
+            <span class="stat-row-value">1 in 14</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARE TO STATUS QUO -->
+  <section id="compare" class="compare-section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">A typical Tuesday morning</span>
+        <h2>Same patient. <span class="serif">Two very different</span> outcomes.</h2>
+        <p>Here's what happens when a worried parent calls about their feverish toddler — at 9:14 AM on a busy Tuesday — through your current process versus through KITOGO.</p>
+      </div>
+
+      <div class="compare-grid">
+        <div class="compare-card bad reveal">
+          <span class="compare-label">Without KITOGO</span>
+          <h3>Hold music, missed cues, frustrated staff.</h3>
+          <div class="compare-stream">
+            <div class="compare-event">
+              <span class="compare-time">9:14</span>
+              <span class="compare-icon">📞</span>
+              <span class="compare-text">Parent calls. Routed to general queue. <strong>14 callers ahead.</strong></span>
+            </div>
+            <div class="compare-event">
+              <span class="compare-time">9:22</span>
+              <span class="compare-icon">⏱️</span>
+              <span class="compare-text">8-minute hold. Toddler crying in background. Parent considers ER.</span>
+            </div>
+            <div class="compare-event">
+              <span class="compare-time">9:23</span>
+              <span class="compare-icon">📝</span>
+              <span class="compare-text">Receptionist takes notes by hand. Asks symptoms three times.</span>
+            </div>
+            <div class="compare-event">
+              <span class="compare-time">9:31</span>
+              <span class="compare-icon">⚠️</span>
+              <span class="compare-text">Routed to nurse line. <strong>Ear-pulling never flagged</strong> — possible otitis missed.</span>
+            </div>
+            <div class="compare-event">
+              <span class="compare-time">9:48</span>
+              <span class="compare-icon">📅</span>
+              <span class="compare-text">Appointment booked for tomorrow. Parent goes to urgent care anyway.</span>
+            </div>
+          </div>
+          <div class="compare-summary">
+            <div class="compare-summary-item"><span class="num">34<span style="font-size:0.6em;">m</span></span><span class="lbl">Total time</span></div>
+            <div class="compare-summary-item"><span class="num">3</span><span class="lbl">Hand-offs</span></div>
+            <div class="compare-summary-item"><span class="num">$418</span><span class="lbl">Avoidable cost</span></div>
+          </div>
+        </div>
+
+        <div class="compare-card good reveal">
+          <span class="compare-label">With KITOGO</span>
+          <h3>Picked up instantly. Triaged. Routed correctly.</h3>
+          <div class="compare-stream">
+            <div class="compare-event">
+              <span class="compare-time">9:14</span>
+              <span class="compare-icon">⚡</span>
+              <span class="compare-text">KITOGO answers in <strong>under 2 seconds.</strong> Warm, calm voice.</span>
+            </div>
+            <div class="compare-event">
+              <span class="compare-time">9:14</span>
+              <span class="compare-icon">🩺</span>
+              <span class="compare-text">Structured intake: age 4, fever 102, won't eat, pulling at right ear.</span>
+            </div>
+            <div class="compare-event">
+              <span class="compare-time">9:15</span>
+              <span class="compare-icon">🧠</span>
+              <span class="compare-text">Protocol flags <strong>possible otitis media.</strong> ESI Level 3 assigned.</span>
+            </div>
+            <div class="compare-event">
+              <span class="compare-time">9:16</span>
+              <span class="compare-icon">📍</span>
+              <span class="compare-text">Routed to urgent care, 7-min wait. Structured note pushed to EHR.</span>
+            </div>
+            <div class="compare-event">
+              <span class="compare-time">9:17</span>
+              <span class="compare-icon">✅</span>
+              <span class="compare-text">SMS confirmation with directions. Provider sees full chart on arrival.</span>
+            </div>
+          </div>
+          <div class="compare-summary">
+            <div class="compare-summary-item"><span class="num">3<span style="font-size:0.6em;">m</span></span><span class="lbl">Total time</span></div>
+            <div class="compare-summary-item"><span class="num">0</span><span class="lbl">Hand-offs</span></div>
+            <div class="compare-summary-item"><span class="num">$92</span><span class="lbl">Total cost</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="how-section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2>Three steps. <span class="serif">Sixty</span> seconds.</h2>
+        <p>From the first ring to a structured handoff in your EHR — KITOGO automates what your team was never meant to do manually.</p>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-line"></div>
+
+        <div class="timeline-step reveal">
+          <div class="timeline-num">i</div>
+          <h3>Patient calls in. Agent answers instantly.</h3>
+          <p>No hold time. The agent greets the patient by name (if known), opens with empathetic context, and gathers chief complaint through natural conversation. Patients can interrupt; the agent adapts.</p>
+          <div class="timeline-tags">
+            <span class="tag">Phone</span>
+            <span class="tag">Web chat</span>
+            <span class="tag">SMS</span>
+            <span class="tag">12 languages</span>
+          </div>
+        </div>
+
+        <div class="timeline-step reveal">
+          <div class="timeline-num">ii</div>
+          <h3>Clinical protocol. Real-time decision.</h3>
+          <p>The agent applies your configured triage protocol — ESI 5-level, Manchester, or proprietary — and continuously evaluates severity. Red-flag symptoms escalate to a live nurse within 30 seconds, automatically.</p>
+          <div class="timeline-tags">
+            <span class="tag">ESI 5-level</span>
+            <span class="tag">Manchester Triage</span>
+            <span class="tag">Custom protocols</span>
+            <span class="tag">Auto-escalation</span>
+          </div>
+        </div>
+
+        <div class="timeline-step reveal">
+          <div class="timeline-num">iii</div>
+          <h3>Structured handoff. Prioritized queue.</h3>
+          <p>Your team receives a clinical summary in their EHR — chief complaint, history, vitals, triage acuity, and recommended next step. Patient is queued. Routing is pre-decided. Decisions stay with humans.</p>
+          <div class="timeline-tags">
+            <span class="tag">Epic</span>
+            <span class="tag">Cerner</span>
+            <span class="tag">Athena</span>
+            <span class="tag">Allscripts</span>
+            <span class="tag">+ 15 more</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENTO FEATURES -->
+  <section id="features">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Platform</span>
+        <h2>Built for clinical environments. <span class="serif">Not</span> chatbots.</h2>
+        <p>Every component engineered for the realities of healthcare: HIPAA compliance, edge-case handling, and the trust your patients deserve.</p>
+      </div>
+
+      <div class="bento">
+        <div class="bento-card bento-1 reveal">
+          <div class="bento-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 1v22M5 5l14 14M19 5L5 19M1 12h22"/></svg>
+          </div>
+          <h3>Voice that sounds <em style="font-family: 'Instrument Serif', serif; font-style: italic; color: #7AABFF;">human.</em> Decisions that are clinical.</h3>
+          <p style="margin-top: 16px;">Natural-sounding speech with sub-200ms latency. The agent listens, adapts to interruptions, and handles accents — while applying medical-grade reasoning under the hood.</p>
+          <div class="waveform">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="bento-card bento-2 reveal">
+          <div class="bento-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>HIPAA-grade by default</h3>
+          <p>SOC 2 Type II, HITRUST, BAA included. End-to-end encryption.</p>
+        </div>
+
+        <div class="bento-card bento-3 reveal">
+          <div class="bento-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4 12 14.01l-3-3"/></svg>
+          </div>
+          <h3>Live in 2 weeks</h3>
+          <p>No rip-and-replace. Plugs into your existing phone and EHR systems.</p>
+        </div>
+
+        <div class="bento-card bento-4 reveal">
+          <div class="bento-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M3 3v18h18M7 16l4-4 4 4 6-6"/></svg>
+          </div>
+          <h3>Real-time analytics</h3>
+          <p>Call volume, acuity distribution, and routing accuracy — live.</p>
+        </div>
+
+        <div class="bento-card bento-5 reveal">
+          <div class="bento-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3>Connects to your stack</h3>
+          <p>Direct integrations with the systems your clinical teams already use.</p>
+          <div class="integration-grid">
+            <div class="integration-pill">Epic</div>
+            <div class="integration-pill">Cerner</div>
+            <div class="integration-pill">Athena</div>
+            <div class="integration-pill">Allscripts</div>
+          </div>
+        </div>
+
+        <div class="bento-card bento-6 reveal">
+          <div class="bento-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          </div>
+          <h3>24/7 reliability</h3>
+          <p>99.99% uptime SLA. Redundant infrastructure across 3 regions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE PRODUCT PREVIEW -->
+  <section id="product" class="product-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">The dashboard your team lives in</span>
+        <h2>One screen. <span class="serif">Total clarity.</span></h2>
+        <p class="section-sub">Live calls, queue status, and analytics — all in real time. Click between tabs to explore.</p>
+      </div>
+
+      <div class="product-shell reveal">
+        <div class="product-chrome">
+          <div class="chrome-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="chrome-url">app.kitogo.health / dashboard</div>
+        </div>
+
+        <div class="product-tabs">
+          <button class="ptab active" data-tab="live">
+            <span class="ptab-pulse"></span>
+            Live calls <span class="ptab-count">7</span>
+          </button>
+          <button class="ptab" data-tab="queue">Queue</button>
+          <button class="ptab" data-tab="analytics">Analytics</button>
+          <button class="ptab" data-tab="protocols">Protocols</button>
+        </div>
+
+        <div class="product-body">
+          <!-- LIVE TAB -->
+          <div class="ppanel active" data-panel="live">
+            <div class="ppanel-grid">
+              <div class="call-list">
+                <div class="call-row active">
+                  <div class="call-avatar" style="background: rgba(185,28,28,0.1); color: var(--danger);">JM</div>
+                  <div class="call-info">
+                    <div class="call-name">James Mwangi</div>
+                    <div class="call-detail">Chest pain · 4m 12s</div>
+                  </div>
+                  <div class="acuity-pill" style="background: rgba(185,28,28,0.1); color: var(--danger);">ESI 2</div>
+                </div>
+                <div class="call-row">
+                  <div class="call-avatar" style="background: rgba(217,119,6,0.1); color: #d97706;">AS</div>
+                  <div class="call-info">
+                    <div class="call-name">Aisha Saleh</div>
+                    <div class="call-detail">Migraine, recurring · 2m 04s</div>
+                  </div>
+                  <div class="acuity-pill" style="background: rgba(217,119,6,0.1); color: #d97706;">ESI 3</div>
+                </div>
+                <div class="call-row">
+                  <div class="call-avatar" style="background: rgba(15,108,63,0.1); color: var(--success);">DK</div>
+                  <div class="call-info">
+                    <div class="call-name">Dana Kim</div>
+                    <div class="call-detail">Routine follow-up · 1m 18s</div>
+                  </div>
+                  <div class="acuity-pill" style="background: rgba(15,108,63,0.1); color: var(--success);">ESI 4</div>
+                </div>
+                <div class="call-row">
+                  <div class="call-avatar" style="background: rgba(15,108,63,0.1); color: var(--success);">RP</div>
+                  <div class="call-info">
+                    <div class="call-name">Robert Patel</div>
+                    <div class="call-detail">Prescription refill · 0m 52s</div>
+                  </div>
+                  <div class="acuity-pill" style="background: rgba(15,108,63,0.1); color: var(--success);">ESI 5</div>
+                </div>
+                <div class="call-row">
+                  <div class="call-avatar" style="background: rgba(217,119,6,0.1); color: #d97706;">EC</div>
+                  <div class="call-info">
+                    <div class="call-name">Elena Cruz</div>
+                    <div class="call-detail">Persistent fever · 0m 31s</div>
+                  </div>
+                  <div class="acuity-pill" style="background: rgba(217,119,6,0.1); color: #d97706;">ESI 3</div>
+                </div>
+              </div>
+
+              <div class="call-detail-pane">
+                <div class="cdp-header">
+                  <div>
+                    <div class="cdp-name">James Mwangi · 47M</div>
+                    <div class="cdp-meta">Patient ID P-48291 · MRN linked · ED routing</div>
+                  </div>
+                  <div class="cdp-confidence">
+                    <div class="cdp-conf-num">98.7%</div>
+                    <div class="cdp-conf-label">confidence</div>
+                  </div>
+                </div>
+
+                <div class="cdp-section">
+                  <div class="cdp-section-title">Live transcript</div>
+                  <div class="cdp-transcript">
+                    <div class="trans-line"><b class="patient-tag">Patient</b> "It started about an hour ago, in my chest…"</div>
+                    <div class="trans-line"><b class="agent-tag">Agent</b> "Does the pain radiate to your arm or jaw?"</div>
+                    <div class="trans-line"><b class="patient-tag">Patient</b> "Yes, my left arm feels heavy."</div>
+                    <div class="trans-line agent-line"><b class="agent-tag">Agent</b> Escalating to live nurse…</div>
+                  </div>
+                </div>
+
+                <div class="cdp-section">
+                  <div class="cdp-section-title">Detected red flags</div>
+                  <div class="redflag-list">
+                    <span class="redflag">⚠ Chest pain &gt; 30min</span>
+                    <span class="redflag">⚠ Radiation to arm</span>
+                    <span class="redflag">⚠ Age 45+ male</span>
+                  </div>
+                </div>
+
+                <div class="cdp-actions">
+                  <button class="cdp-btn primary">Join call</button>
+                  <button class="cdp-btn">Send to ED</button>
+                  <button class="cdp-btn">View summary</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- QUEUE TAB -->
+          <div class="ppanel" data-panel="queue">
+            <div class="queue-stats">
+              <div class="qstat"><div class="qstat-num">14</div><div class="qstat-label">In queue</div></div>
+              <div class="qstat"><div class="qstat-num">2m 31s</div><div class="qstat-label">Avg wait</div></div>
+              <div class="qstat"><div class="qstat-num">38s</div><div class="qstat-label">Avg routing</div></div>
+              <div class="qstat"><div class="qstat-num">0</div><div class="qstat-label">Abandoned</div></div>
+            </div>
+            <div class="queue-table">
+              <div class="qrow qhead">
+                <span>Position</span><span>Patient</span><span>Concern</span><span>Wait</span><span>Acuity</span>
+              </div>
+              <div class="qrow"><span>1</span><span>M. Tanaka</span><span>Abdominal pain</span><span>0:42</span><span class="qpill p2">ESI 2</span></div>
+              <div class="qrow"><span>2</span><span>L. Brown</span><span>Med refill</span><span>1:08</span><span class="qpill p5">ESI 5</span></div>
+              <div class="qrow"><span>3</span><span>S. Okafor</span><span>Rash spreading</span><span>1:24</span><span class="qpill p3">ESI 3</span></div>
+              <div class="qrow"><span>4</span><span>K. Müller</span><span>Pre-op questions</span><span>2:01</span><span class="qpill p4">ESI 4</span></div>
+              <div class="qrow"><span>5</span><span>P. Hassan</span><span>Sore throat, fever</span><span>2:35</span><span class="qpill p3">ESI 3</span></div>
+            </div>
+          </div>
+
+          <!-- ANALYTICS TAB -->
+          <div class="ppanel" data-panel="analytics">
+            <div class="analytics-grid">
+              <div class="achart-card big">
+                <div class="achart-title">Calls handled · last 24h</div>
+                <div class="achart-big">2,847</div>
+                <div class="achart-sub" style="color: var(--success);">↑ 18% vs yesterday</div>
+                <svg class="achart-spark" viewBox="0 0 400 100" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#0066ff" stop-opacity="0.3"/>
+                      <stop offset="100%" stop-color="#0066ff" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M 0,80 L 30,70 L 60,75 L 90,55 L 120,60 L 150,40 L 180,50 L 210,30 L 240,35 L 270,25 L 300,20 L 330,28 L 360,15 L 400,22 L 400,100 L 0,100 Z" fill="url(#sparkGrad)"/>
+                  <path d="M 0,80 L 30,70 L 60,75 L 90,55 L 120,60 L 150,40 L 180,50 L 210,30 L 240,35 L 270,25 L 300,20 L 330,28 L 360,15 L 400,22" fill="none" stroke="#0066ff" stroke-width="2"/>
+                </svg>
+              </div>
+              <div class="achart-card">
+                <div class="achart-title">Avg handle time</div>
+                <div class="achart-num">3:14</div>
+                <div class="achart-sub" style="color: var(--success);">↓ 42% vs Q3</div>
+              </div>
+              <div class="achart-card">
+                <div class="achart-title">Escalations to nurse</div>
+                <div class="achart-num">11.3%</div>
+                <div class="achart-sub">within target band</div>
+              </div>
+              <div class="achart-card">
+                <div class="achart-title">Acuity distribution</div>
+                <div class="acuity-bar">
+                  <div class="abar p1" style="width: 4%;" title="ESI 1"></div>
+                  <div class="abar p2" style="width: 12%;" title="ESI 2"></div>
+                  <div class="abar p3" style="width: 28%;" title="ESI 3"></div>
+                  <div class="abar p4" style="width: 36%;" title="ESI 4"></div>
+                  <div class="abar p5" style="width: 20%;" title="ESI 5"></div>
+                </div>
+                <div class="acuity-legend">
+                  <span><i class="dot p1"></i>1</span>
+                  <span><i class="dot p2"></i>2</span>
+                  <span><i class="dot p3"></i>3</span>
+                  <span><i class="dot p4"></i>4</span>
+                  <span><i class="dot p5"></i>5</span>
+                </div>
+              </div>
+              <div class="achart-card">
+                <div class="achart-title">Patient satisfaction</div>
+                <div class="achart-num">4.8<span style="color: var(--ink-3); font-size: 0.5em;">/5</span></div>
+                <div class="achart-sub">based on 1,284 surveys</div>
+              </div>
+              <div class="achart-card">
+                <div class="achart-title">EHR sync rate</div>
+                <div class="achart-num">99.94%</div>
+                <div class="achart-sub" style="color: var(--success);">all systems healthy</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROTOCOLS TAB -->
+          <div class="ppanel" data-panel="protocols">
+            <div class="protocol-list">
+              <div class="proto-card">
+                <div class="proto-head">
+                  <div>
+                    <div class="proto-name">Emergency Severity Index (ESI)</div>
+                    <div class="proto-desc">5-level acuity for ED · v4 standard</div>
+                  </div>
+                  <span class="proto-status active">● Active</span>
+                </div>
+                <div class="proto-stats"><span>14,820 calls routed</span><span>·</span><span>98.2% adherence</span></div>
+              </div>
+              <div class="proto-card">
+                <div class="proto-head">
+                  <div>
+                    <div class="proto-name">Manchester Triage System</div>
+                    <div class="proto-desc">Symptom flowcharts · UK/EU standard</div>
+                  </div>
+                  <span class="proto-status active">● Active</span>
+                </div>
+                <div class="proto-stats"><span>3,421 calls routed</span><span>·</span><span>97.6% adherence</span></div>
+              </div>
+              <div class="proto-card">
+                <div class="proto-head">
+                  <div>
+                    <div class="proto-name">Custom · Pediatric Urgent Care</div>
+                    <div class="proto-desc">Built with Mercy Regional clinical team</div>
+                  </div>
+                  <span class="proto-status active">● Active</span>
+                </div>
+                <div class="proto-stats"><span>892 calls routed</span><span>·</span><span>99.1% adherence</span></div>
+              </div>
+              <div class="proto-card">
+                <div class="proto-head">
+                  <div>
+                    <div class="proto-name">Custom · Post-op Follow-up</div>
+                    <div class="proto-desc">Draft · awaiting clinical sign-off</div>
+                  </div>
+                  <span class="proto-status">○ Draft</span>
+                </div>
+                <div class="proto-stats"><span>Pilot ready</span><span>·</span><span>23 test scenarios</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI CALCULATOR -->
+  <section id="roi" class="roi-section">
+    <div class="container">
+      <div class="roi-grid">
+        <div class="roi-copy reveal">
+          <span class="eyebrow">The math, made obvious</span>
+          <h2>See your <span class="serif">first-year ROI</span> in seconds.</h2>
+          <p>Adjust the sliders to match your operation. We'll show you the labor hours recovered, calls deflected, and dollars saved — based on real KITOGO deployments.</p>
+          <div class="roi-disclaimer">Estimates based on median outcomes across 14 healthcare networks. Your results will vary by case mix and integration depth.</div>
+        </div>
+
+        <div class="roi-calc reveal">
+          <div class="roi-input">
+            <div class="roi-input-row">
+              <label>Daily call volume</label>
+              <output id="roi-calls-out">800</output>
+            </div>
+            <input type="range" id="roi-calls" min="50" max="5000" value="800" step="50">
+            <div class="roi-range-labels"><span>50</span><span>5,000</span></div>
+          </div>
+
+          <div class="roi-input">
+            <div class="roi-input-row">
+              <label>Avg call handle time (min)</label>
+              <output id="roi-time-out">6</output>
+            </div>
+            <input type="range" id="roi-time" min="2" max="15" value="6" step="1">
+            <div class="roi-range-labels"><span>2</span><span>15</span></div>
+          </div>
+
+          <div class="roi-input">
+            <div class="roi-input-row">
+              <label>Loaded staff cost ($/hr)</label>
+              <output id="roi-cost-out">$48</output>
+            </div>
+            <input type="range" id="roi-cost" min="20" max="120" value="48" step="2">
+            <div class="roi-range-labels"><span>$20</span><span>$120</span></div>
+          </div>
+
+          <div class="roi-divider"></div>
+
+          <div class="roi-results">
+            <div class="roi-result">
+              <div class="roi-result-num" id="roi-hours">0</div>
+              <div class="roi-result-label">staff hours recovered / year</div>
+            </div>
+            <div class="roi-result">
+              <div class="roi-result-num" id="roi-calls-handled">0</div>
+              <div class="roi-result-label">calls auto-handled / year</div>
+            </div>
+            <div class="roi-result big">
+              <div class="roi-result-num" id="roi-savings">$0</div>
+              <div class="roi-result-label">estimated annual savings</div>
+            </div>
+          </div>
+
+          <button class="roi-cta">Get a custom ROI report →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTCOME GUARANTEE — Tier L -->
+  <section class="guarantee-section">
+    <div class="guarantee-card reveal">
+      <div class="guarantee-seal">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <path id="circlePath" d="M 100, 100 m -78, 0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0"/>
+          </defs>
+          <circle cx="100" cy="100" r="92" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+          <circle cx="100" cy="100" r="78" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="3 6"/>
+          <text fill="white" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="3">
+            <textPath href="#circlePath" startOffset="0">90-DAY OUTCOME GUARANTEE · 90-DAY OUTCOME GUARANTEE · </textPath>
+          </text>
+          <g transform="translate(100,100)">
+            <circle cx="0" cy="0" r="42" fill="white"/>
+            <text x="0" y="-2" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="32" fill="#0B5FFF">90</text>
+            <text x="0" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="600" fill="#0A1F44" letter-spacing="1.5">DAYS</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="guarantee-content">
+        <span class="eyebrow">Skin in the game</span>
+        <h2>Don't hit your numbers? <span class="serif">We refund you.</span></h2>
+        <p>If KITOGO doesn't reduce your average intake time by at least 20% within 90 days of go-live, we'll refund every dollar you paid us. No legal hoops. No "but what we meant was." Real money back. We're that confident — and if we're wrong, we'd rather know it.</p>
+      </div>
+
+      <a href="#" class="guarantee-cta">
+        Read the guarantee terms
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-7-7 7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <section id="cases" class="case-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Proof, not promises</span>
+        <h2>Outcomes that <span class="serif">defend themselves.</span></h2>
+      </div>
+
+      <div class="case-grid">
+        <div class="case-card reveal">
+          <div class="case-metric"><span data-count="42">0</span><span style="font-size: 0.5em;">%</span></div>
+          <div class="case-label">Reduction in average intake time — 6-month pilot, 14,000 encounters</div>
+          <div class="case-quote">"KITOGO cut our intake time in half. Patients are routed faster, and our staff finally get to focus on care."</div>
+          <div class="case-author">Mercy Regional · Director of Operations</div>
+        </div>
+
+        <div class="case-card reveal">
+          <div class="case-metric">$<span data-count="1.2">0</span><span style="font-size: 0.5em;">M</span></div>
+          <div class="case-label">First-year ROI — 500-bed health system, labor savings + revenue capture</div>
+          <div class="case-quote">"We expected automation. We got transformation. Our team morale changed within weeks."</div>
+          <div class="case-author">Atlantic Health · CMIO</div>
+        </div>
+
+        <div class="case-card reveal">
+          <div class="case-metric"><span data-count="18">0</span>×</div>
+          <div class="case-label">Increase in proactive engagement capacity — Pacific Care Group, Q1–Q3</div>
+          <div class="case-quote">"What used to take a team of 12 now runs continuously. The agent never sleeps and never has a bad day."</div>
+          <div class="case-author">Pacific Care Group · VP of Patient Experience</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DETAILED CASE STUDY -->
+  <section id="case-deep" class="case-deep-section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Featured customer story</span>
+        <h2>Mercy Regional cut intake time <span class="serif">in half.</span></h2>
+        <p>Inside a 6-month pilot at a 12-clinic ambulatory network — what changed, what didn't, and what the data showed.</p>
+      </div>
+
+      <div class="case-deep reveal">
+        <div class="case-deep-header">
+          <div class="case-deep-meta">
+            <span><strong>Mercy Regional Health</strong></span>
+            <span>·</span>
+            <span>12 clinics, 340 providers</span>
+            <span>·</span>
+            <span>14,200 encounters analyzed</span>
+            <span>·</span>
+            <span>Mar–Aug 2026</span>
+          </div>
+          <h3 class="case-deep-title">"We stopped losing the patients we were trying to serve. That's the headline."</h3>
+        </div>
+
+        <div class="case-deep-body">
+          <div class="case-deep-sidebar">
+            <div class="case-deep-stat">
+              <div class="num">42%</div>
+              <div class="lbl">Reduction in average intake time (8m 12s → 4m 44s)</div>
+            </div>
+            <div class="case-deep-stat">
+              <div class="num">3.1×</div>
+              <div class="lbl">Increase in calls answered within 60 seconds</div>
+            </div>
+            <div class="case-deep-stat">
+              <div class="num">−61%</div>
+              <div class="lbl">Drop in call abandonment rate (from 31% to 12%)</div>
+            </div>
+            <div class="case-deep-stat">
+              <div class="num">$890K</div>
+              <div class="lbl">Net annualized savings, year-one (labor + recovered revenue)</div>
+            </div>
+          </div>
+
+          <div class="case-deep-content">
+            <h3>The challenge</h3>
+            <p>Mercy Regional's call volume had grown 38% over two years while front-desk headcount stayed flat. Average hold time crept past 8 minutes. 31% of inbound calls were abandoned before pickup. Worse, the team's own audit found that roughly 1 in 14 urgent cases were being misrouted to non-urgent queues — usually because intake notes were rushed or inconsistent.</p>
+            <p>Leadership had already evaluated three IVR vendors and one call-center outsourcer. None solved the underlying issue: routine triage was eating the bandwidth that should have gone to acute cases.</p>
+
+            <h3>The deployment</h3>
+            <div class="case-deep-timeline">
+              <div class="case-deep-event">
+                <div class="week">Week 1</div>
+                <p>Integration kickoff with Epic. BAA signed, security review completed in parallel.</p>
+              </div>
+              <div class="case-deep-event">
+                <div class="week">Week 2</div>
+                <p>Triage protocol configured against Mercy's existing ESI 5-level decision tree.</p>
+              </div>
+              <div class="case-deep-event">
+                <div class="week">Week 3</div>
+                <p>Soft launch on 2 pilot clinics. Shadow mode — KITOGO runs alongside human triage for calibration.</p>
+              </div>
+              <div class="case-deep-event">
+                <div class="week">Week 6</div>
+                <p>Full production at all 12 clinics. Average response time hit sub-3-second target.</p>
+              </div>
+              <div class="case-deep-event">
+                <div class="week">Month 6</div>
+                <p>14,200 encounters analyzed. Results presented to board: green-light for permanent rollout.</p>
+              </div>
+            </div>
+
+            <h3>What surprised them</h3>
+            <p>The team expected operational savings. What they didn't expect was a measurable lift in patient satisfaction scores — NPS climbed 18 points across the pilot. The most-cited reason in the open-ended survey responses: "Someone picked up immediately, and they actually listened."</p>
+
+            <div class="case-deep-quote">
+              <div class="case-deep-quote-text">"Honestly, I was the skeptic. I thought we'd lose the human touch. Six months in, our staff have more time to give that human touch where it actually matters — to people in the room, in front of them. The AI does the parts they always hated anyway."</div>
+              <div class="case-deep-quote-author">
+                <div class="case-deep-quote-avatar">DM</div>
+                <div>
+                  <strong>Diana Mendoza, RN, MSN</strong>
+                  <span>Director of Patient Operations · Mercy Regional Health</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCROLL-DRIVEN PRODUCT WALKTHROUGH — Tier K -->
+  <section id="walkthrough" class="walkthrough-section">
+    <div class="walkthrough-intro">
+      <span class="eyebrow">Sixty seconds, four steps</span>
+      <h2>What happens between the <span class="serif">first ring</span> and the EHR write-back.</h2>
+      <p>Scroll to walk through the full lifecycle of a single triage call — exactly what your patients experience, and exactly what shows up in your system.</p>
+    </div>
+
+    <div class="walkthrough-pin" id="walkthroughPin">
+      <div class="walkthrough-sticky">
+        <div class="walkthrough-text-stack">
+          <div class="walkthrough-step active" data-step="0">
+            <span class="walkthrough-step-num">STEP 01 / 04</span>
+            <h3>The phone <span class="serif">rings.</span></h3>
+            <p>Patient dials your existing number. KITOGO answers in under 2 seconds — no menu trees, no "press 1 for…", no hold music. A calm, natural voice greets them by their name if we recognize the caller ID.</p>
+            <div class="walkthrough-progress">
+              <div class="walkthrough-dot active"></div>
+              <div class="walkthrough-dot"></div>
+              <div class="walkthrough-dot"></div>
+              <div class="walkthrough-dot"></div>
+            </div>
+          </div>
+
+          <div class="walkthrough-step" data-step="1">
+            <span class="walkthrough-step-num">STEP 02 / 04</span>
+            <h3>Symptoms are <span class="serif">structured.</span></h3>
+            <p>The agent runs your configured triage protocol — ESI, Manchester, or custom. It listens for clinical red flags in real time and surfaces them as they appear. Every utterance is captured, structured, and time-stamped.</p>
+            <div class="walkthrough-progress">
+              <div class="walkthrough-dot"></div>
+              <div class="walkthrough-dot active"></div>
+              <div class="walkthrough-dot"></div>
+              <div class="walkthrough-dot"></div>
+            </div>
+          </div>
+
+          <div class="walkthrough-step" data-step="2">
+            <span class="walkthrough-step-num">STEP 03 / 04</span>
+            <h3>Routing happens <span class="serif">automatically.</span></h3>
+            <p>Based on acuity, location, time of day, and provider availability, KITOGO routes to the right destination — urgent care, scheduled visit, nurse callback, or live escalation. The patient gets confirmation by SMS before the call ends.</p>
+            <div class="walkthrough-progress">
+              <div class="walkthrough-dot"></div>
+              <div class="walkthrough-dot"></div>
+              <div class="walkthrough-dot active"></div>
+              <div class="walkthrough-dot"></div>
+            </div>
+          </div>
+
+          <div class="walkthrough-step" data-step="3">
+            <span class="walkthrough-step-num">STEP 04 / 04</span>
+            <h3>Pushed to <span class="serif">your EHR.</span></h3>
+            <p>Structured intake, transcript, audio recording, and ESI-mapped chief complaint write back to Epic, Cerner, or your system of record before the patient hangs up. Your clinical team sees a complete chart on arrival.</p>
+            <div class="walkthrough-progress">
+              <div class="walkthrough-dot"></div>
+              <div class="walkthrough-dot"></div>
+              <div class="walkthrough-dot"></div>
+              <div class="walkthrough-dot active"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="walkthrough-visual">
+          <div class="walkthrough-frame">
+            <!-- Scene 1: Phone ring -->
+            <div class="walkthrough-scene active" data-scene="0">
+              <div class="scene-phone">
+                <div class="scene-phone-orb">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.71 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.58 2.81.71A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="scene-phone-meta">
+                  <strong>+1 (415) 555-0142</strong>
+                  Incoming · Maria Santos · returning patient
+                </div>
+                <div class="scene-phone-stats">
+                  <div><strong>1.4s</strong>Pickup</div>
+                  <div><strong>0</strong>Hold</div>
+                  <div><strong>EN</strong>Language</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Scene 2: Live transcript -->
+            <div class="walkthrough-scene" data-scene="1">
+              <div class="scene-transcript">
+                <div class="scene-transcript-head">
+                  <span class="scene-transcript-dot"></span>
+                  <span>LIVE · 00:34</span>
+                  <span style="margin-left:auto; color: rgba(255,255,255,0.5);">Confidence 94%</span>
+                </div>
+                <div class="scene-transcript-line"><span class="who bot">Agent</span><span class="text">Hi Maria, this is the KITOGO assistant. What's going on today?</span></div>
+                <div class="scene-transcript-line"><span class="who pat">Patient</span><span class="text">My son has had a fever for 8 hours, around 102, and he's pulling at his right ear.</span></div>
+                <div class="scene-transcript-line"><span class="who bot">Agent</span><span class="text">How old is he, and is he eating or drinking?</span></div>
+                <div class="scene-transcript-line"><span class="who pat">Patient</span><span class="text">He's four. He won't eat, he had some water this morning.</span></div>
+                <div class="scene-transcript-flag">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2 L22 22 L2 22 Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 9v4M12 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  <span><strong>Protocol flag:</strong> possible otitis media + dehydration risk · ESI Level 3</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Scene 3: Routing -->
+            <div class="walkthrough-scene" data-scene="2">
+              <div class="scene-routing">
+                <div class="scene-routing-head">EVALUATING ROUTING OPTIONS</div>
+                <div class="scene-routing-card">
+                  <div class="scene-routing-icon" style="background: rgba(239,68,68,0.15); color: #fca5a5;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+                  </div>
+                  <div>
+                    <div class="name">Emergency Department</div>
+                    <div class="meta">Not indicated · ESI 3 doesn't meet ED criteria</div>
+                  </div>
+                </div>
+                <div class="scene-routing-card active">
+                  <div class="scene-routing-icon" style="background: rgba(11,95,255,0.2); color: #60A5FA;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 12 L21 12 M12 3 L12 21" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+                  </div>
+                  <div>
+                    <div class="name">Pediatric Urgent Care · Mission Bay</div>
+                    <div class="meta">7 min wait · 1.2 mi away · accepts insurance · open until 22:00</div>
+                  </div>
+                </div>
+                <div class="scene-routing-card">
+                  <div class="scene-routing-icon" style="background: rgba(180,83,9,0.15); color: #fcd34d;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/></svg>
+                  </div>
+                  <div>
+                    <div class="name">Nurse callback</div>
+                    <div class="meta">Backup · Next slot 14 minutes</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Scene 4: EHR push -->
+            <div class="walkthrough-scene" data-scene="3">
+              <div class="scene-ehr">
+                <div class="scene-transcript-head" style="margin-bottom: 4px;">
+                  <span class="scene-transcript-dot" style="background:#10b981;"></span>
+                  <span>WRITING TO EPIC · 00:00:42</span>
+                </div>
+                <div class="scene-ehr-row"><span class="lbl">PATIENT_MRN</span><span class="val">EPIC-04829-C</span></div>
+                <div class="scene-ehr-row"><span class="lbl">CHIEF_COMPLAINT</span><span class="val">Pediatric fever, ear pain</span></div>
+                <div class="scene-ehr-row"><span class="lbl">ESI_LEVEL</span><span class="val">3 — Urgent</span></div>
+                <div class="scene-ehr-row"><span class="lbl">ROUTING</span><span class="val">PUC Mission Bay · 14:22</span></div>
+                <div class="scene-ehr-row"><span class="lbl">TRANSCRIPT</span><span class="val">attached.json (4.2 KB)</span></div>
+                <div class="scene-ehr-row"><span class="lbl">AUDIO</span><span class="val">recording.wav (2m 14s)</span></div>
+                <div class="scene-ehr-status">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span><strong>Synced.</strong> Provider sees full chart on patient arrival.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="pricing-section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Plans &amp; pricing</span>
+        <h2>Pricing that <span class="serif">scales with you.</span></h2>
+        <p>Simple, transparent, and built around the volume you actually handle. No per-seat fees. No hidden integration costs.</p>
+        <div class="pricing-toggle" role="tablist">
+          <button class="active" data-billing="monthly">Monthly</button>
+          <button data-billing="annual">Annual <span style="opacity:0.7;">−20%</span></button>
+        </div>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="pricing-card reveal">
+          <div class="pricing-tier">Starter</div>
+          <div class="pricing-name">For growing practices</div>
+          <div class="pricing-price">
+            <span class="currency">$</span>
+            <span class="amount" data-monthly="1500" data-annual="1200">1,500</span>
+            <span class="period">/ month</span>
+          </div>
+          <p class="pricing-desc">Up to 2,500 calls/month. Perfect for single-site practices and growing clinics.</p>
+          <a href="#" class="pricing-cta">Start free trial</a>
+          <ul class="pricing-features">
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Voice + SMS triage agent</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>ESI 5-level protocol library</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>1 EHR integration (Epic, Cerner, athenahealth)</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Standard analytics dashboard</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>HIPAA-compliant infrastructure + BAA</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Email + chat support</li>
+            <li class="muted"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Custom triage protocols</li>
+          </ul>
+        </div>
+
+        <div class="pricing-card featured reveal">
+          <div class="pricing-tier">Growth</div>
+          <div class="pricing-name">For health systems</div>
+          <div class="pricing-price">
+            <span class="currency">$</span>
+            <span class="amount" data-monthly="4800" data-annual="3840">4,800</span>
+            <span class="period">/ month</span>
+          </div>
+          <p class="pricing-desc">Up to 15,000 calls/month. The sweet spot for multi-site networks and ambulatory groups.</p>
+          <a href="#" class="pricing-cta">Book a demo</a>
+          <ul class="pricing-features">
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="#93C5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Starter</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="#93C5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Up to 5 EHR/PMS integrations</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="#93C5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom triage protocol authoring</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="#93C5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Multi-site analytics + benchmarking</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="#93C5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>SSO + advanced role permissions</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="#93C5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Dedicated implementation manager</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="#93C5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>99.95% SLA + priority support</li>
+          </ul>
+        </div>
+
+        <div class="pricing-card reveal">
+          <div class="pricing-tier">Enterprise</div>
+          <div class="pricing-name">For large networks</div>
+          <div class="pricing-price">
+            <span class="amount" style="font-size: 36px;">Custom</span>
+          </div>
+          <p class="pricing-desc">Unlimited volume, on-prem or VPC deployment, dedicated infrastructure. Built around your security posture.</p>
+          <a href="#" class="pricing-cta">Talk to sales</a>
+          <ul class="pricing-features">
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Growth</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited EHR/PMS integrations</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>VPC, on-prem, or hybrid deployment</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Data residency controls</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom security review + pen test</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Dedicated CSM + clinical advisor</li>
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>White-label patient experience</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pricing-footer reveal">
+        <strong>All plans include:</strong> HIPAA compliance, BAA, SOC 2 Type II, end-to-end encryption, 24/7 system monitoring, and a 30-day money-back guarantee. Prices shown in USD. Volume above plan limits billed at $0.42/call.
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPETITOR MATRIX — Tier J -->
+  <section id="compare-vendors" class="matrix-section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">An honest comparison</span>
+        <h2>How KITOGO stacks up against <span class="serif">what you're using now.</span></h2>
+        <p>We've scoped this against the three things healthcare ops teams actually evaluate us next to. We'll be straightforward about where we're stronger — and where another tool might fit better.</p>
+      </div>
+
+      <div class="matrix-table-wrap reveal">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th class="kitogo-col">KITOGO</th>
+              <th>Legacy IVR</th>
+              <th>Generic AI Assistant</th>
+              <th>Call Center BPO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="matrix-row-label">
+                Clinical-grade triage protocol
+                <span class="sub">ESI 5-level, Manchester, custom rule authoring</span>
+              </td>
+              <td class="matrix-cell kitogo"><span class="matrix-cell-flex"><span class="matrix-check yes">✓</span>Native, configurable</span></td>
+              <td class="matrix-cell"><span class="matrix-cell-flex"><span class="matrix-check no">×</span>None</span></td>
+              <td class="matrix-cell"><span class="matrix-cell-flex"><span class="matrix-check no">×</span>Not clinically validated</span></td>
+              <td class="matrix-cell"><span class="matrix-cell-flex"><span class="matrix-check partial">~</span>Human-dependent, inconsistent</span></td>
+            </tr>
+            <tr>
+              <td class="matrix-row-label">
+                Average pickup time
+                <span class="sub">From first ring to first response</span>
+              </td>
+              <td class="matrix-cell kitogo">Under 2 seconds</td>
+              <td class="matrix-cell">Instant (but menu)</td>
+              <td class="matrix-cell">3–8 seconds</td>
+              <td class="matrix-cell">2–14 minutes</td>
+            </tr>
+            <tr>
+              <td class="matrix-row-label">
+                HIPAA + SOC 2 Type II + BAA
+                <span class="sub">All three, externally audited</span>
+              </td>
+              <td class="matrix-cell kitogo"><span class="matrix-cell-flex"><span class="matrix-check yes">✓</span>All three</span></td>
+              <td class="matrix-cell"><span class="matrix-cell-flex"><span class="matrix-check partial">~</span>HIPAA-only typically</span></td>
+              <td class="matrix-cell"><span class="matrix-cell-flex"><span class="matrix-check no">×</span>Rare; varies by vendor</span></td>
+              <td class="matrix-cell"><span class="matrix-cell-flex"><span class="matrix-check yes">✓</span>Yes (most)</span></td>
+            </tr>
+            <tr>
+              <td class="matrix-row-label">
+                Direct EHR write-back
+                <span class="sub">Structured note pushed to Epic, Cerner, etc.</span>
+              </td>
+              <td class="matrix-cell kitogo"><span class="matrix-cell-flex"><span class="matrix-check yes">✓</span>42+ direct integrations</span></td>
+              <td class="matrix-cell"><span class="matrix-cell-flex"><span class="matrix-check no">×</span>Manual entry required</span></td>
+              <td class="matrix-cell"><span class="matrix-cell-flex"><span class="matrix-check no">×</span>Not designed for it</span></td>
+              <td class="matrix-cell"><span class="matrix-cell-flex"><span class="matrix-check partial">~</span>Manual; lag &amp; transcription errors</span></td>
+            </tr>
+            <tr>
+              <td class="matrix-row-label">
+                24/7 availability
+                <span class="sub">Including holidays and weekends</span>
+              </td>
+              <td class="matrix-cell kitogo"><span class="matrix-cell-flex"><span class="matrix-check yes">✓</span>Always on</span></td>
+              <td class="matrix-cell"><span class="matrix-cell-flex"><span class="matrix-check yes">✓</span>Always on (limited)</span></td>
+              <td class="matrix-cell"><span class="matrix-cell-flex"><span class="matrix-check yes">✓</span>Always on</span></td>
+              <td class="matrix-cell"><span class="matrix-cell-flex"><span class="matrix-check partial">~</span>Premium for after-hours</span></td>
+            </tr>
+            <tr>
+              <td class="matrix-row-label">
+                Setup time
+                <span class="sub">Contract signed → in production</span>
+              </td>
+              <td class="matrix-cell kitogo">2 weeks</td>
+              <td class="matrix-cell">2–4 weeks</td>
+              <td class="matrix-cell">1–2 weeks</td>
+              <td class="matrix-cell">4–8 weeks</td>
+            </tr>
+            <tr>
+              <td class="matrix-row-label">
+                Monthly cost (mid-volume)
+                <span class="sub">Roughly 5,000 calls/month</span>
+              </td>
+              <td class="matrix-cell kitogo">~$2,400</td>
+              <td class="matrix-cell">$800–1,500</td>
+              <td class="matrix-cell">$400–1,200</td>
+              <td class="matrix-cell">$8,000–18,000</td>
+            </tr>
+            <tr>
+              <td class="matrix-row-label">
+                Patient experience score
+                <span class="sub">Median NPS, customer-reported</span>
+              </td>
+              <td class="matrix-cell kitogo">+62</td>
+              <td class="matrix-cell">−18</td>
+              <td class="matrix-cell">+12</td>
+              <td class="matrix-cell">+34</td>
+            </tr>
+            <tr>
+              <td class="matrix-row-label">
+                When this option is the right call
+              </td>
+              <td class="matrix-cell kitogo">High call volume, multi-site, EHR depth, want measurable outcomes</td>
+              <td class="matrix-cell">Single small clinic, no clinical triage need, just routing</td>
+              <td class="matrix-cell">Non-clinical FAQ deflection only — never use for triage</td>
+              <td class="matrix-cell">Surge or after-hours overflow paired with another solution</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="matrix-takeaway reveal">
+        <strong>An honest take:</strong> if all you need is to deflect "what are your hours?" calls, a generic AI assistant or a basic IVR can do that for less. KITOGO is overkill for that. Where we're worth the price is when triage quality, EHR depth, and measurable patient outcomes actually matter — which is the case for most healthcare orgs over a few thousand monthly calls. We'll tell you if you're not a fit on the demo call.
+      </div>
+    </div>
+  </section>
+
+  <!-- SECURITY & COMPLIANCE -->
+  <section id="security" class="security-section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Security &amp; compliance</span>
+        <h2>Built for the <span class="serif">scrutiny</span> of healthcare.</h2>
+        <p>KITOGO is engineered from the ground up around HIPAA, SOC 2, and the realities of clinical data. Your security and compliance teams will recognize the architecture.</p>
+      </div>
+
+      <div class="security-hero reveal">
+        <div class="security-shield">
+          <div class="security-shield-ring outer"></div>
+          <div class="security-shield-ring"></div>
+          <svg class="security-shield-svg" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#0B5FFF"/>
+                <stop offset="100%" stop-color="#052D7A"/>
+              </linearGradient>
+              <linearGradient id="shieldGloss" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="white" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="white" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M160 40 L260 80 L260 170 Q260 240 160 280 Q60 240 60 170 L60 80 Z" fill="url(#shieldGrad)"/>
+            <path d="M160 40 L260 80 L260 170 Q260 240 160 280 Q60 240 60 170 L60 80 Z" fill="url(#shieldGloss)"/>
+            <path d="M115 165 L150 198 L210 130" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="160" cy="160" r="86" stroke="white" stroke-opacity="0.15" stroke-width="1" fill="none"/>
+          </svg>
+        </div>
+
+        <div>
+          <h3 style="font-size: 28px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 16px; color: var(--ink);">
+            Certifications and frameworks we operate under.
+          </h3>
+          <p style="color: var(--ink-2); font-size: 16px; line-height: 1.6;">
+            Every certification on this page is current, externally audited, and available for your review. We sign BAAs with every customer before any data flows.
+          </p>
+
+          <div class="security-grid">
+            <div class="security-cert">
+              <div class="security-cert-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2 L20 6 V12 C20 17 16.5 21 12 22 C7.5 21 4 17 4 12 V6 Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+              </div>
+              <div>
+                <h4>HIPAA</h4>
+                <p>Full administrative, physical, and technical safeguards. BAA included.</p>
+              </div>
+            </div>
+            <div class="security-cert">
+              <div class="security-cert-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div>
+                <h4>SOC 2 Type II</h4>
+                <p>Annually audited. Trust Services Criteria report available under NDA.</p>
+              </div>
+            </div>
+            <div class="security-cert">
+              <div class="security-cert-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </div>
+              <div>
+                <h4>HITRUST CSF</h4>
+                <p>r2 Validated assessment. Maps controls across HIPAA, NIST, ISO.</p>
+              </div>
+            </div>
+            <div class="security-cert">
+              <div class="security-cert-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </div>
+              <div>
+                <h4>GDPR / CCPA</h4>
+                <p>Data residency in EU/US. Right-to-delete and DPA on request.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="security-pillars">
+        <div class="security-pillar reveal">
+          <div class="security-pillar-num">01</div>
+          <h4>Data protection</h4>
+          <ul>
+            <li>AES-256 encryption at rest, TLS 1.3 in transit</li>
+            <li>Customer-managed encryption keys (Enterprise)</li>
+            <li>Tokenization of PHI in non-clinical contexts</li>
+            <li>Zero data used for model training without explicit opt-in</li>
+            <li>Configurable data retention from 30 days to 7 years</li>
+          </ul>
+        </div>
+        <div class="security-pillar reveal">
+          <div class="security-pillar-num">02</div>
+          <h4>Access &amp; identity</h4>
+          <ul>
+            <li>SAML 2.0 SSO with SCIM provisioning</li>
+            <li>Multi-factor authentication enforced for all admin roles</li>
+            <li>Role-based access control with audit-friendly granularity</li>
+            <li>Session timeout policies configurable per organization</li>
+            <li>Full audit log of every PHI access event, retained 7 years</li>
+          </ul>
+        </div>
+        <div class="security-pillar reveal">
+          <div class="security-pillar-num">03</div>
+          <h4>Infrastructure</h4>
+          <ul>
+            <li>AWS HIPAA-eligible regions, multi-AZ failover</li>
+            <li>Quarterly third-party penetration testing</li>
+            <li>24/7 SOC monitoring with 15-min response SLA</li>
+            <li>Annual disaster recovery exercises (RTO 4h / RPO 1h)</li>
+            <li>VPC, on-prem, and hybrid deployment options</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYSTEM ARCHITECTURE — Tier I -->
+  <section id="architecture" class="arch-section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">For your CTO and CISO</span>
+        <h2>How <span class="serif">data flows</span> — and where it doesn't.</h2>
+        <p>Click any node to see what runs there, what data crosses each boundary, and the controls in place. The full architecture review is available under NDA.</p>
+      </div>
+
+      <div class="arch-canvas reveal">
+        <div class="arch-svg-wrap">
+          <svg class="arch-svg" id="archSvg" viewBox="0 0 1100 480" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="archBlue" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#0B5FFF"/>
+                <stop offset="100%" stop-color="#052D7A"/>
+              </linearGradient>
+              <marker id="archArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#94A3B8"/>
+              </marker>
+            </defs>
+
+            <!-- Trust boundary backgrounds -->
+            <rect x="20" y="20" width="220" height="440" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="4 4"/>
+            <text x="40" y="48" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#64748B">PATIENT EDGE</text>
+
+            <rect x="270" y="20" width="540" height="440" rx="16" fill="#F4F8FF" stroke="#E8F1FF" stroke-width="1" stroke-dasharray="4 4"/>
+            <text x="290" y="48" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#0B5FFF">KITOGO VPC · HIPAA-ELIGIBLE AWS · SOC 2</text>
+
+            <rect x="840" y="20" width="240" height="440" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="4 4"/>
+            <text x="860" y="48" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#64748B">YOUR ENVIRONMENT</text>
+
+            <!-- Patient nodes -->
+            <g class="arch-node" data-node="phone">
+              <rect x="50" y="100" width="160" height="56" rx="10" fill="white" stroke="#E2E8F0" stroke-width="1"/>
+              <text x="130" y="125" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#0A1F44">Patient phone</text>
+              <text x="130" y="142" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#64748B">PSTN / SIP</text>
+            </g>
+
+            <g class="arch-node" data-node="web">
+              <rect x="50" y="180" width="160" height="56" rx="10" fill="white" stroke="#E2E8F0" stroke-width="1"/>
+              <text x="130" y="205" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#0A1F44">Web / SMS</text>
+              <text x="130" y="222" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#64748B">HTTPS · TLS 1.3</text>
+            </g>
+
+            <!-- Edge / ingress -->
+            <g class="arch-node" data-node="edge">
+              <rect x="300" y="100" width="160" height="56" rx="10" fill="white" stroke="#0B5FFF" stroke-width="1.5"/>
+              <text x="380" y="125" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#0A1F44">Voice gateway</text>
+              <text x="380" y="142" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#0B5FFF">SRTP · DTLS</text>
+            </g>
+
+            <g class="arch-node" data-node="api">
+              <rect x="300" y="180" width="160" height="56" rx="10" fill="white" stroke="#0B5FFF" stroke-width="1.5"/>
+              <text x="380" y="205" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#0A1F44">API gateway</text>
+              <text x="380" y="222" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#0B5FFF">WAF · OAuth 2.1</text>
+            </g>
+
+            <!-- Core / brain -->
+            <g class="arch-node" data-node="core">
+              <rect x="500" y="140" width="160" height="76" rx="10" fill="url(#archBlue)" stroke="#052D7A" stroke-width="1"/>
+              <text x="580" y="170" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Triage core</text>
+              <text x="580" y="188" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#93C5FD">ASR · NLU · Protocol</text>
+              <text x="580" y="204" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#93C5FD">Tokenized PHI</text>
+            </g>
+
+            <!-- Storage -->
+            <g class="arch-node" data-node="vault">
+              <rect x="500" y="280" width="160" height="56" rx="10" fill="white" stroke="#0B5FFF" stroke-width="1.5"/>
+              <text x="580" y="305" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#0A1F44">PHI vault</text>
+              <text x="580" y="322" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#0B5FFF">AES-256 · KMS</text>
+            </g>
+
+            <g class="arch-node" data-node="audit">
+              <rect x="500" y="360" width="160" height="56" rx="10" fill="white" stroke="#0B5FFF" stroke-width="1.5"/>
+              <text x="580" y="385" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#0A1F44">Audit log</text>
+              <text x="580" y="402" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#0B5FFF">7-yr retention</text>
+            </g>
+
+            <!-- Egress -->
+            <g class="arch-node" data-node="egress">
+              <rect x="700" y="180" width="100" height="76" rx="10" fill="white" stroke="#0B5FFF" stroke-width="1.5"/>
+              <text x="750" y="210" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#0A1F44">Egress</text>
+              <text x="750" y="226" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="500" fill="#0A1F44">router</text>
+              <text x="750" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#0B5FFF">FHIR · HL7</text>
+            </g>
+
+            <!-- Customer side -->
+            <g class="arch-node" data-node="ehr">
+              <rect x="870" y="100" width="180" height="56" rx="10" fill="white" stroke="#E2E8F0" stroke-width="1"/>
+              <text x="960" y="125" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#0A1F44">Your EHR</text>
+              <text x="960" y="142" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#64748B">Epic / Cerner / Athena</text>
+            </g>
+
+            <g class="arch-node" data-node="phone-system">
+              <rect x="870" y="180" width="180" height="56" rx="10" fill="white" stroke="#E2E8F0" stroke-width="1"/>
+              <text x="960" y="205" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#0A1F44">Your phone system</text>
+              <text x="960" y="222" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#64748B">RingCentral / Twilio</text>
+            </g>
+
+            <g class="arch-node" data-node="dash">
+              <rect x="870" y="260" width="180" height="56" rx="10" fill="white" stroke="#E2E8F0" stroke-width="1"/>
+              <text x="960" y="285" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#0A1F44">Staff dashboard</text>
+              <text x="960" y="302" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#64748B">SSO · MFA · RBAC</text>
+            </g>
+
+            <g class="arch-node" data-node="warehouse">
+              <rect x="870" y="340" width="180" height="56" rx="10" fill="white" stroke="#E2E8F0" stroke-width="1"/>
+              <text x="960" y="365" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#0A1F44">Your warehouse</text>
+              <text x="960" y="382" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#64748B">Snowflake / Databricks</text>
+            </g>
+
+            <!-- Flow lines -->
+            <g stroke="#94A3B8" stroke-width="1.5" fill="none">
+              <path class="arch-flow-line" d="M 210 128 L 300 128" marker-end="url(#archArrow)"/>
+              <path class="arch-flow-line" d="M 210 208 L 300 208" marker-end="url(#archArrow)"/>
+              <path class="arch-flow-line" d="M 460 128 Q 480 130, 500 160" marker-end="url(#archArrow)"/>
+              <path class="arch-flow-line" d="M 460 208 L 500 178" marker-end="url(#archArrow)"/>
+              <path class="arch-flow-line" d="M 580 216 L 580 280" marker-end="url(#archArrow)"/>
+              <path class="arch-flow-line" d="M 580 336 L 580 360" marker-end="url(#archArrow)"/>
+              <path class="arch-flow-line" d="M 660 178 L 700 200" marker-end="url(#archArrow)"/>
+              <path class="arch-flow-line" d="M 800 200 L 870 128" marker-end="url(#archArrow)"/>
+              <path class="arch-flow-line" d="M 800 218 L 870 208" marker-end="url(#archArrow)"/>
+              <path class="arch-flow-line" d="M 800 236 L 870 288" marker-end="url(#archArrow)"/>
+              <path class="arch-flow-line" d="M 800 248 L 870 368" marker-end="url(#archArrow)"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="arch-legend">
+          <div class="arch-legend-item"><span class="arch-legend-dot" style="background: #0B5FFF;"></span>KITOGO-managed (in our VPC)</div>
+          <div class="arch-legend-item"><span class="arch-legend-dot" style="background: white; border: 1px solid #E2E8F0;"></span>Customer-managed</div>
+          <div class="arch-legend-item"><span class="arch-legend-dot" style="background: #94A3B8;"></span>Encrypted data flow</div>
+        </div>
+
+        <div class="arch-detail-panel" id="archDetail">
+          <h4>Click any node above to inspect it</h4>
+          <p>Each box represents a discrete service with its own access controls, audit logging, and trust boundary. Data crossing any dashed line is encrypted, authenticated, and logged.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTEGRATIONS -->
+  <section id="integrations" class="integrations-section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Integrations</span>
+        <h2>Plays nicely with <span class="serif">everything</span> you already run.</h2>
+        <p>Direct integrations with the EHRs, scheduling tools, telephony platforms, and identity providers your clinical and IT teams depend on. Two-week setup, no rip-and-replace.</p>
+      </div>
+
+      <div class="integrations-tabs reveal">
+        <button class="integrations-tab active" data-tab="all">All</button>
+        <button class="integrations-tab" data-tab="ehr">EHR / EMR</button>
+        <button class="integrations-tab" data-tab="phone">Telephony</button>
+        <button class="integrations-tab" data-tab="schedule">Scheduling</button>
+        <button class="integrations-tab" data-tab="identity">Identity</button>
+        <button class="integrations-tab" data-tab="data">Data</button>
+      </div>
+
+      <div class="integrations-cloud reveal" id="integrationsCloud">
+        <div class="integration-card" data-cat="ehr"><div class="logo-mark" style="background:#7B2CBF;">E</div><div class="logo-name">Epic</div><div class="logo-cat">EHR</div></div>
+        <div class="integration-card" data-cat="ehr"><div class="logo-mark" style="background:#0066CC;">C</div><div class="logo-name">Cerner</div><div class="logo-cat">EHR</div></div>
+        <div class="integration-card" data-cat="ehr"><div class="logo-mark" style="background:#7B0F2B;">a</div><div class="logo-name">athenahealth</div><div class="logo-cat">EHR</div></div>
+        <div class="integration-card" data-cat="ehr"><div class="logo-mark" style="background:#00838F;">A</div><div class="logo-name">Allscripts</div><div class="logo-cat">EHR</div></div>
+        <div class="integration-card" data-cat="ehr"><div class="logo-mark" style="background:#FF6B35;">e</div><div class="logo-name">eClinicalWorks</div><div class="logo-cat">EHR</div></div>
+        <div class="integration-card" data-cat="ehr"><div class="logo-mark" style="background:#1E40AF;">N</div><div class="logo-name">NextGen</div><div class="logo-cat">EHR</div></div>
+        <div class="integration-card" data-cat="ehr"><div class="logo-mark" style="background:#0F766E;">M</div><div class="logo-name">MEDITECH</div><div class="logo-cat">EHR</div></div>
+        <div class="integration-card" data-cat="ehr"><div class="logo-mark" style="background:#B91C1C;">G</div><div class="logo-name">Greenway</div><div class="logo-cat">EHR</div></div>
+
+        <div class="integration-card" data-cat="phone"><div class="logo-mark" style="background:#F22F46;">T</div><div class="logo-name">Twilio</div><div class="logo-cat">Voice</div></div>
+        <div class="integration-card" data-cat="phone"><div class="logo-mark" style="background:#FF6900;">R</div><div class="logo-name">RingCentral</div><div class="logo-cat">Voice</div></div>
+        <div class="integration-card" data-cat="phone"><div class="logo-mark" style="background:#06A189;">N</div><div class="logo-name">Nextiva</div><div class="logo-cat">Voice</div></div>
+        <div class="integration-card" data-cat="phone"><div class="logo-mark" style="background:#5DADE2;">G</div><div class="logo-name">Genesys</div><div class="logo-cat">Contact center</div></div>
+
+        <div class="integration-card" data-cat="schedule"><div class="logo-mark" style="background:#0061FF;">A</div><div class="logo-name">Acuity</div><div class="logo-cat">Scheduling</div></div>
+        <div class="integration-card" data-cat="schedule"><div class="logo-mark" style="background:#1A73E8;">C</div><div class="logo-name">Calendly</div><div class="logo-cat">Scheduling</div></div>
+        <div class="integration-card" data-cat="schedule"><div class="logo-mark" style="background:#5C2D91;">Q</div><div class="logo-name">Qgenda</div><div class="logo-cat">Scheduling</div></div>
+        <div class="integration-card" data-cat="schedule"><div class="logo-mark" style="background:#0078D4;">M</div><div class="logo-name">MS Bookings</div><div class="logo-cat">Scheduling</div></div>
+
+        <div class="integration-card" data-cat="identity"><div class="logo-mark" style="background:#000000;">O</div><div class="logo-name">Okta</div><div class="logo-cat">SSO / SCIM</div></div>
+        <div class="integration-card" data-cat="identity"><div class="logo-mark" style="background:#0078D4;">A</div><div class="logo-name">Azure AD</div><div class="logo-cat">SSO / SCIM</div></div>
+        <div class="integration-card" data-cat="identity"><div class="logo-mark" style="background:#326CE5;">D</div><div class="logo-name">Duo</div><div class="logo-cat">MFA</div></div>
+        <div class="integration-card" data-cat="identity"><div class="logo-mark" style="background:#5B5FC7;">P</div><div class="logo-name">Ping Identity</div><div class="logo-cat">SSO</div></div>
+
+        <div class="integration-card" data-cat="data"><div class="logo-mark" style="background:#FF4F00;">S</div><div class="logo-name">Snowflake</div><div class="logo-cat">Warehouse</div></div>
+        <div class="integration-card" data-cat="data"><div class="logo-mark" style="background:#FF3621;">D</div><div class="logo-name">Databricks</div><div class="logo-cat">Warehouse</div></div>
+        <div class="integration-card" data-cat="data"><div class="logo-mark" style="background:#1E1E1E;">F</div><div class="logo-name">FHIR API</div><div class="logo-cat">Standard</div></div>
+        <div class="integration-card" data-cat="data"><div class="logo-mark" style="background:#0EA5E9;">H</div><div class="logo-name">HL7 v2</div><div class="logo-cat">Standard</div></div>
+      </div>
+
+      <div class="integration-meta reveal">
+        <div class="integration-meta-item">
+          <div class="num">42+</div>
+          <div class="lbl">Direct integrations</div>
+        </div>
+        <div class="integration-meta-item">
+          <div class="num">2 wks</div>
+          <div class="lbl">Average setup time</div>
+        </div>
+        <div class="integration-meta-item">
+          <div class="num">FHIR R4</div>
+          <div class="lbl">Native standard support</div>
+        </div>
+        <div class="integration-meta-item">
+          <div class="num">REST + Webhook</div>
+          <div class="lbl">Custom systems</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLIC TRUST REPORT — Tier G -->
+  <section id="trust" class="trust-section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Live · public</span>
+        <h2>Numbers we <span class="serif">publish openly.</span></h2>
+        <p>This dashboard updates from production data every 60 seconds. We believe healthcare buyers deserve the same transparency you give your patients.</p>
+      </div>
+
+      <div class="trust-status-bar reveal">
+        <span class="trust-status-dot"></span>
+        <span class="trust-status-text"><strong>All systems operational</strong></span>
+        <span class="trust-status-divider"></span>
+        <span class="trust-status-metric">Uptime <strong id="trustUptime">99.97%</strong></span>
+        <span class="trust-status-divider"></span>
+        <span class="trust-status-metric">Voice latency <strong id="trustLatency">142ms</strong></span>
+        <span class="trust-status-divider"></span>
+        <span class="trust-status-metric">API p95 <strong id="trustApi">218ms</strong></span>
+        <a href="#" class="trust-status-link">Full status →</a>
+      </div>
+
+      <div class="trust-grid">
+        <div class="trust-tile reveal">
+          <div class="trust-tile-label">Calls triaged · 30 days</div>
+          <div class="trust-tile-value" id="trustCalls">2,847,193</div>
+          <div class="trust-tile-trend">
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 6H2L6 2Z" fill="currentColor"/></svg>
+            +12.4% MoM
+          </div>
+          <div class="trust-tile-spark">
+            <svg viewBox="0 0 100 32" preserveAspectRatio="none">
+              <polyline points="0,24 10,22 20,18 30,20 40,15 50,12 60,14 70,8 80,10 90,5 100,3" fill="none" stroke="#0B5FFF" stroke-width="1.5"/>
+              <polyline points="0,24 10,22 20,18 30,20 40,15 50,12 60,14 70,8 80,10 90,5 100,3 100,32 0,32" fill="url(#sparkGrad1)" opacity="0.2"/>
+              <defs><linearGradient id="sparkGrad1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0B5FFF"/><stop offset="100%" stop-color="#0B5FFF" stop-opacity="0"/></linearGradient></defs>
+            </svg>
+          </div>
+        </div>
+
+        <div class="trust-tile reveal">
+          <div class="trust-tile-label">Avg. routing time</div>
+          <div class="trust-tile-value" id="trustRoute">38<span class="unit">s</span></div>
+          <div class="trust-tile-trend">
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M6 10L2 6H10L6 10Z" fill="currentColor"/></svg>
+            −18% MoM
+          </div>
+          <div class="trust-tile-spark">
+            <svg viewBox="0 0 100 32" preserveAspectRatio="none">
+              <polyline points="0,8 10,10 20,12 30,11 40,15 50,17 60,19 70,22 80,24 90,26 100,28" fill="none" stroke="#10b981" stroke-width="1.5"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="trust-tile reveal">
+          <div class="trust-tile-label">Successful escalations</div>
+          <div class="trust-tile-value">99.4<span class="unit">%</span></div>
+          <div class="trust-tile-trend flat">
+            ─ Stable
+          </div>
+          <div class="trust-tile-spark">
+            <svg viewBox="0 0 100 32" preserveAspectRatio="none">
+              <polyline points="0,12 10,11 20,13 30,12 40,11 50,12 60,11 70,12 80,11 90,12 100,12" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="trust-tile reveal">
+          <div class="trust-tile-label">Customer-reported NPS</div>
+          <div class="trust-tile-value">+62</div>
+          <div class="trust-tile-trend">
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M6 2L10 6H2L6 2Z" fill="currentColor"/></svg>
+            +8 from Q3
+          </div>
+          <div class="trust-tile-spark">
+            <svg viewBox="0 0 100 32" preserveAspectRatio="none">
+              <polyline points="0,22 10,20 20,18 30,16 40,14 50,12 60,11 70,9 80,8 90,6 100,4" fill="none" stroke="#0B5FFF" stroke-width="1.5"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="trust-board">
+        <div class="trust-chart-card reveal">
+          <div class="trust-card-head">
+            <h4>Pickup latency · last 24 hours</h4>
+            <span class="meta">target: under 2.0s</span>
+          </div>
+          <div class="trust-chart">
+            <svg viewBox="0 0 600 200" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="trustChartGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#0B5FFF" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#0B5FFF" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- target line -->
+              <line x1="0" y1="80" x2="600" y2="80" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4 4" opacity="0.5"/>
+              <text x="595" y="76" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#94A3B8">2.0s</text>
+
+              <!-- area + line: 24 data points -->
+              <path d="M 0,140 L 25,135 L 50,138 L 75,132 L 100,128 L 125,142 L 150,130 L 175,125 L 200,135 L 225,128 L 250,124 L 275,118 L 300,122 L 325,126 L 350,118 L 375,114 L 400,122 L 425,118 L 450,112 L 475,116 L 500,108 L 525,112 L 550,105 L 575,108 L 600,102
+                       L 600,200 L 0,200 Z" fill="url(#trustChartGrad)"/>
+              <polyline points="0,140 25,135 50,138 75,132 100,128 125,142 150,130 175,125 200,135 225,128 250,124 275,118 300,122 325,126 350,118 375,114 400,122 425,118 450,112 475,116 500,108 525,112 550,105 575,108 600,102"
+                fill="none" stroke="#0B5FFF" stroke-width="2"/>
+
+              <!-- last point dot -->
+              <circle cx="600" cy="102" r="4" fill="#0B5FFF"/>
+              <circle cx="600" cy="102" r="8" fill="none" stroke="#0B5FFF" stroke-width="1.5" opacity="0.4">
+                <animate attributeName="r" values="4;14;4" dur="2s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+          </div>
+          <div class="trust-chart-axis">
+            <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>now</span>
+          </div>
+        </div>
+
+        <div class="trust-feed-card reveal">
+          <div class="trust-card-head">
+            <h4>Recent activity</h4>
+            <span class="meta">live</span>
+          </div>
+          <div class="trust-feed" id="trustFeed">
+            <div class="trust-feed-item">
+              <span class="trust-feed-time">2m</span>
+              <span class="trust-feed-text"><strong>Mercy Regional</strong> · 47 calls triaged in last hour, 0 escalation errors</span>
+            </div>
+            <div class="trust-feed-item">
+              <span class="trust-feed-time">14m</span>
+              <span class="trust-feed-text"><strong>System update</strong> · Spanish-language model upgraded to v2.4 across all customers</span>
+            </div>
+            <div class="trust-feed-item">
+              <span class="trust-feed-time">38m</span>
+              <span class="trust-feed-text"><strong>Atlantic Health</strong> · Crossed 100K calls handled milestone</span>
+            </div>
+            <div class="trust-feed-item">
+              <span class="trust-feed-time">1h</span>
+              <span class="trust-feed-text"><strong>Audit log</strong> · Quarterly third-party penetration test completed · zero criticals</span>
+            </div>
+            <div class="trust-feed-item">
+              <span class="trust-feed-time">2h</span>
+              <span class="trust-feed-text"><strong>Pacific Care Group</strong> · Custom pediatric protocol deployed to production</span>
+            </div>
+            <div class="trust-feed-item">
+              <span class="trust-feed-time">3h</span>
+              <span class="trust-feed-text"><strong>Infrastructure</strong> · Scheduled failover test passed · RTO 2m 18s</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">About KITOGO</span>
+        <h2>Built by clinicians, <span class="serif">for clinicians.</span></h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="reveal">
+          <p class="about-mission">
+            We started KITOGO after watching a triage nurse work an 11-hour shift without a break. Calls stacked up. Acute cases got buried. Routine questions ate the bandwidth that should have gone to <span class="serif">the patients who needed it most.</span>
+          </p>
+          <p class="about-mission" style="margin-top: 24px; font-size: clamp(15px, 1.2vw, 17px); color: var(--ink-2);">
+            We built the system we wished she'd had — clinical-grade, protocol-faithful, and never tired. Today we serve 14 healthcare networks and counting.
+          </p>
+        </div>
+        <div class="about-stats reveal">
+          <div class="about-stat">
+            <div class="num">2023</div>
+            <div class="lbl">Founded in San Francisco</div>
+          </div>
+          <div class="about-stat">
+            <div class="num">$24M</div>
+            <div class="lbl">Series A · Andreessen Horowitz</div>
+          </div>
+          <div class="about-stat">
+            <div class="num">42</div>
+            <div class="lbl">Team members across clinical, eng &amp; ops</div>
+          </div>
+          <div class="about-stat">
+            <div class="num">14</div>
+            <div class="lbl">Healthcare networks live in production</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-head reveal" style="margin-bottom: 32px;">
+        <span class="eyebrow">The team</span>
+        <h2 style="font-size: clamp(28px, 3vw, 40px);">People who've <span class="serif">been on the call.</span></h2>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-card reveal">
+          <div class="team-avatar">SO</div>
+          <h4>Sarah Okonkwo, MD</h4>
+          <div class="role">Co-founder &amp; CEO</div>
+          <p class="bio">Former ED attending at UCSF. Stanford Med. Built and sold a clinical decision-support startup in 2021.</p>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-avatar">RP</div>
+          <h4>Raj Patel</h4>
+          <div class="role">Co-founder &amp; CTO</div>
+          <p class="bio">Ex-Anthropic and Google Health. Led voice AI infrastructure at a Y Combinator healthcare unicorn.</p>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-avatar">EW</div>
+          <h4>Elena Vasquez, RN</h4>
+          <div class="role">VP of Clinical Operations</div>
+          <p class="bio">15 years as a triage nurse and clinical informatics lead at Kaiser Permanente. Designs every protocol.</p>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-avatar">MK</div>
+          <h4>Marcus Kim</h4>
+          <div class="role">Head of Security</div>
+          <p class="bio">Former CISO at a top-10 health system. CISSP, HCISPP. Owns SOC 2 and HITRUST programs end-to-end.</p>
+        </div>
+      </div>
+
+      <div class="advisors-band reveal">
+        <h4>Clinical Advisory Board</h4>
+        <div class="advisors-list">
+          <div class="advisor-item">
+            <strong>Dr. Patricia Hayes, MD, MBA</strong>
+            <span>Former Chief Medical Officer · Cleveland Clinic</span>
+          </div>
+          <div class="advisor-item">
+            <strong>Dr. James Rourke, MD, FACEP</strong>
+            <span>ED Director · Mass General Brigham</span>
+          </div>
+          <div class="advisor-item">
+            <strong>Linda Chen, RN, PhD</strong>
+            <span>Chief Nursing Informatics Officer · Sutter Health</span>
+          </div>
+          <div class="advisor-item">
+            <strong>Dr. David Okafor, MD</strong>
+            <span>Pediatric Emergency Medicine · CHOP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIMITATIONS / WHERE WE'RE HONEST — Tier H -->
+  <section id="limitations" class="limits-section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Where we're honest</span>
+        <h2>Things KITOGO <span class="serif">isn't built for.</span></h2>
+        <p>Most vendor websites bury their limitations or pretend they don't exist. We've made a different choice: tell you up front. If we're not the right fit for what you need, we'd rather you find out now than after the contract.</p>
+      </div>
+
+      <div class="limits-intro-card reveal">
+        <h4>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          A note before you read this section
+        </h4>
+        <p>KITOGO is a triage and intake assistant — it gathers structured information and applies the protocol you configure. <strong>It is not a clinical decision-making system, and it does not diagnose, treat, prescribe, or replace clinical judgment.</strong> Acuity assignment and routing recommendations are always reviewable by your clinical team, and red-flag escalations always go to a live human.</p>
+      </div>
+
+      <div class="limits-grid">
+        <div class="limits-card reveal">
+          <div class="limits-card-head">
+            <span class="limits-card-num">01</span>
+            <h4>It can't replace a clinician's judgment.</h4>
+          </div>
+          <p class="limits-card-question">"Should we let KITOGO make final routing decisions without review?"</p>
+          <p class="limits-card-answer">No. KITOGO surfaces a structured chief complaint and a protocol-based recommendation. The clinical team is always the decision-maker on edge cases — and on the messy 4 AM calls where someone says everything and nothing at once. The agent is a force-multiplier for your team, not a replacement for clinical reasoning.</p>
+          <div class="limits-mitigation">
+            <div class="limits-mitigation-label">How we handle this</div>
+            <p>Configurable confidence thresholds. Anything below your floor routes to a live nurse. Quarterly clinical-quality reviews are part of every Growth and Enterprise contract.</p>
+          </div>
+        </div>
+
+        <div class="limits-card reveal">
+          <div class="limits-card-head">
+            <span class="limits-card-num">02</span>
+            <h4>It's not a behavioral health crisis line.</h4>
+          </div>
+          <p class="limits-card-question">"Can we route mental health emergencies through KITOGO?"</p>
+          <p class="limits-card-answer">For active mental health crises — suicidal ideation, acute psychiatric emergencies, child safety concerns — KITOGO recognizes the trigger keywords and transfers immediately to a human or to your crisis-line partner. We have crisis-detection sensitivity, but we are not a replacement for a 988-grade behavioral health response.</p>
+          <div class="limits-mitigation">
+            <div class="limits-mitigation-label">How we handle this</div>
+            <p>Built-in crisis-detection escalation. Direct routing to 988, your in-house crisis team, or a partner crisis line — whichever you configure. Audited monthly.</p>
+          </div>
+        </div>
+
+        <div class="limits-card reveal">
+          <div class="limits-card-head">
+            <span class="limits-card-num">03</span>
+            <h4>It struggles with extreme accents and noise.</h4>
+          </div>
+          <p class="limits-card-question">"What about callers our nurses sometimes have trouble understanding?"</p>
+          <p class="limits-card-answer">Our speech recognition is strong across major English and Spanish dialects, but it's not infallible. Heavy regional accents, background noise, low-bandwidth cellular calls, or speakerphone use can degrade transcription quality. We won't pretend otherwise.</p>
+          <div class="limits-mitigation">
+            <div class="limits-mitigation-label">How we handle this</div>
+            <p>Real-time confidence scoring. When recognition confidence drops, the agent asks clarifying questions, slows down, or escalates to a human within 60 seconds. Quality varies by dialect — share your patient demographics and we'll show you our specific numbers.</p>
+          </div>
+        </div>
+
+        <div class="limits-card reveal">
+          <div class="limits-card-head">
+            <span class="limits-card-num">04</span>
+            <h4>It's overkill for low-volume practices.</h4>
+          </div>
+          <p class="limits-card-question">"We're a single clinic with 80 calls a day. Should we use KITOGO?"</p>
+          <p class="limits-card-answer">Probably not — at least not yet. Below ~2,500 monthly calls, the implementation overhead and per-month cost don't pay back fast enough. Our Starter plan is designed for that low end, but honestly a basic IVR or a part-time virtual receptionist may serve you better. We'll tell you that on the demo call.</p>
+          <div class="limits-mitigation">
+            <div class="limits-mitigation-label">How we handle this</div>
+            <p>If we're not the right fit for your volume, we'll say so on the demo. We track our own win-rate by org size and won't sell into a segment where outcomes don't justify the cost.</p>
+          </div>
+        </div>
+
+        <div class="limits-card reveal">
+          <div class="limits-card-head">
+            <span class="limits-card-num">05</span>
+            <h4>It can't fix a broken intake protocol.</h4>
+          </div>
+          <p class="limits-card-question">"If our current protocol is inconsistent, will the AI fix that?"</p>
+          <p class="limits-card-answer">No — and this catches teams off-guard. KITOGO faithfully executes the protocol you give it. If your existing triage logic has gaps, the agent will follow those gaps consistently across thousands of calls. The AI amplifies the protocol, for better or worse.</p>
+          <div class="limits-mitigation">
+            <div class="limits-mitigation-label">How we handle this</div>
+            <p>Implementation always includes a protocol review with our clinical team. We surface gaps, edge cases, and decision points that need explicit handling — before we go live.</p>
+          </div>
+        </div>
+
+        <div class="limits-card reveal">
+          <div class="limits-card-head">
+            <span class="limits-card-num">06</span>
+            <h4>Less than 100% of patients want to talk to AI.</h4>
+          </div>
+          <p class="limits-card-question">"What about patients who refuse to speak to a bot?"</p>
+          <p class="limits-card-answer">In production, around 6% of callers explicitly request a human at some point. That's a real number we measure and publish. Some of those callers are right to want a person — older patients with hearing concerns, people in distress, complex multi-system issues. Forcing them through automation hurts them and you.</p>
+          <div class="limits-mitigation">
+            <div class="limits-mitigation-label">How we handle this</div>
+            <p>"Talk to a person" is always one phrase away — no menu hunting required. Average human-handoff time is under 30 seconds. Caller-preference flags persist on the patient record so they're not asked again.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Common questions</span>
+        <h2>Everything <span class="serif">you need</span> to know.</h2>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq" open>
+          <summary>
+            <span>Does the agent diagnose patients?</span>
+            <span class="faq-icon">+</span>
+          </summary>
+          <div class="faq-body">No. KITOGO gathers a structured chief complaint and applies the triage protocol you configure — it never makes clinical decisions. Acuity assignment, routing, and care delivery remain entirely with your clinical team.</div>
+        </details>
+
+        <details class="faq">
+          <summary>
+            <span>How long does deployment take?</span>
+            <span class="faq-icon">+</span>
+          </summary>
+          <div class="faq-body">Most teams go live in 2 weeks. We integrate with your existing phone, EHR, and scheduling systems — no rip-and-replace, no downtime. Our deployment team handles configuration, testing, and staff training.</div>
+        </details>
+
+        <details class="faq">
+          <summary>
+            <span>What happens with emergency cases?</span>
+            <span class="faq-icon">+</span>
+          </summary>
+          <div class="faq-body">The agent detects red-flag symptoms (chest pain, difficulty breathing, altered mental status) and escalates to a live human within 30 seconds, automatically. Your team always handles emergencies — the agent only triages and routes.</div>
+        </details>
+
+        <details class="faq">
+          <summary>
+            <span>Is patient data secure?</span>
+            <span class="faq-icon">+</span>
+          </summary>
+          <div class="faq-body">Yes. KITOGO is HIPAA-compliant, SOC 2 Type II certified, and HITRUST accredited. All data is encrypted in transit and at rest. We sign BAAs with every customer and maintain full audit logs of all interactions.</div>
+        </details>
+
+        <details class="faq">
+          <summary>
+            <span>Which EHR systems do you support?</span>
+            <span class="faq-icon">+</span>
+          </summary>
+          <div class="faq-body">Epic, Cerner, athenahealth, Allscripts, eClinicalWorks, NextGen, and 15+ others via direct integration. We also support custom APIs for niche or proprietary systems. Your implementation team will scope this in week one.</div>
+        </details>
+
+        <details class="faq">
+          <summary>
+            <span>Can we customize the triage protocol?</span>
+            <span class="faq-icon">+</span>
+          </summary>
+          <div class="faq-body">Absolutely. KITOGO ships with ESI 5-level and Manchester Triage System out of the box. Your clinical team can configure custom decision rules, escalation pathways, and routing logic — and update them anytime through our admin console.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <h2>Ready to give your <span class="serif">staff</span> their time back?</h2>
+    <a href="#" class="btn btn-primary" style="font-size: 17px; padding: 18px 28px;">Book a demo</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">
+          <span class="nav-logo-dot"></span>
+          KITOGO
+        </a>
+        <p>The clinical-grade AI agent for patient triage and intake. Built with healthcare teams, for healthcare teams.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#features">Platform</a>
+        <a href="#integrations">Integrations</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#security">Security</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#about">About</a>
+        <a href="#">Careers</a>
+        <a href="#">Blog</a>
+        <a href="#">Press</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="#case-deep">Case study</a>
+        <a href="#cases">Customers</a>
+        <a href="#faq">FAQ</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 KITOGO Health, Inc. All rights reserved.</span>
+      <div class="compliance-badges">
+        <span class="compliance-badge">HIPAA</span>
+        <span class="compliance-badge">SOC 2 Type II</span>
+        <span class="compliance-badge">HITRUST</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- LIVE AI CHAT WIDGET -->
+  <button class="chat-fab" id="chatFab" aria-label="Open chat with KITOGO">
+    <span class="pulse-ring"></span>
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <div class="chat-panel" id="chatPanel" role="dialog" aria-label="Chat with KITOGO">
+    <div class="chat-header">
+      <div class="chat-header-avatar">K</div>
+      <div class="chat-header-info">
+        <strong>KITOGO Assistant</strong>
+        <span>Online · Replies instantly</span>
+      </div>
+      <button class="chat-close" id="chatClose" aria-label="Close chat">×</button>
+    </div>
+    <div class="chat-body" id="chatBody"></div>
+    <div style="padding: 0 16px 8px; background: white;">
+      <div id="chatSuggestions" class="chat-suggestions"></div>
+    </div>
+    <div class="chat-input-wrap">
+      <input type="text" class="chat-input" id="chatInput" placeholder="Ask anything about KITOGO..." autocomplete="off"/>
+      <button class="chat-send" id="chatSend" aria-label="Send message">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="chat-disclaimer">Demo only · For real medical questions, contact your provider</div>
+  </div>
+
+  <script>
+    // ============================================
+    // LIVE CALL SIMULATION — with scenarios
+    // ============================================
+    const scenarios = {
+      emergency: {
+        acuity: 'ESI Level 2',
+        acuityColor: 'var(--danger)',
+        acuityDelta: '↑ Escalating to nurse',
+        banner: 'Escalating to live nurse · ESI Level 2 · ETA 12 sec',
+        bannerBg: 'linear-gradient(90deg, var(--danger) 0%, #dc2626 100%)',
+        showBanner: true,
+        messages: [
+          { who: 'agent', text: "Hi, this is the KITOGO assistant. What's going on today?", delay: 800 },
+          { who: 'patient', text: "I've been having chest pain for about an hour. It's getting worse.", delay: 2400 },
+          { who: 'agent', text: "Where exactly is the pain — center, left side, or somewhere else?", delay: 4000 },
+          { who: 'patient', text: "Center, and it's spreading to my left arm.", delay: 5600 },
+        ]
+      },
+      routine: {
+        acuity: 'ESI Level 4',
+        acuityColor: 'var(--success)',
+        acuityDelta: 'Routing to clinic',
+        banner: 'Booked appointment · Tomorrow 2:30 PM · Dr. Chen',
+        bannerBg: 'linear-gradient(90deg, var(--success) 0%, #059669 100%)',
+        showBanner: true,
+        messages: [
+          { who: 'agent', text: "Hi, what can I help you with today?", delay: 800 },
+          { who: 'patient', text: "I need to refill my blood pressure medication.", delay: 2400 },
+          { who: 'agent', text: "Got it. When did you last see Dr. Chen for this prescription?", delay: 4000 },
+          { who: 'patient', text: "About six months ago. I'd like to schedule a follow-up.", delay: 5600 },
+        ]
+      },
+      pediatric: {
+        acuity: 'ESI Level 3',
+        acuityColor: 'var(--warning)',
+        acuityDelta: 'Urgent care recommended',
+        banner: 'Urgent care · Available now · 7 min wait',
+        bannerBg: 'linear-gradient(90deg, var(--warning) 0%, #d97706 100%)',
+        showBanner: true,
+        messages: [
+          { who: 'agent', text: "Hi, I'll help you get your child the right care. What's happening?", delay: 800 },
+          { who: 'patient', text: "My 4-year-old has a fever of 102 and won't eat.", delay: 2400 },
+          { who: 'agent', text: "How long has the fever been at 102 or higher?", delay: 4000 },
+          { who: 'patient', text: "About 8 hours. He's also pulling at his right ear.", delay: 5600 },
+        ]
+      }
+    };
+
+    let activeScenario = 'emergency';
+    let convoTimeout;
+    let loopTimeout;
+
+    const convoEl = document.getElementById('convo');
+    const bannerEl = document.getElementById('banner');
+    const bannerText = document.getElementById('bannerText');
+    const acuityValue = document.getElementById('acuityValue');
+    const acuityDelta = document.getElementById('acuityDelta');
+
+    function renderMessage(msg) {
+      const div = document.createElement('div');
+      div.className = 'msg msg-' + msg.who;
+      div.innerHTML = `
+        <div class="msg-meta">${msg.who === 'agent' ? 'KITOGO' : 'Patient'}</div>
+        ${msg.text}
+      `;
+      convoEl.appendChild(div);
+    }
+
+    function renderTyping() {
+      const div = document.createElement('div');
+      div.className = 'typing';
+      div.innerHTML = '<span></span><span></span><span></span>';
+      convoEl.appendChild(div);
+      return div;
+    }
+
+    function clearTimers() {
+      clearTimeout(convoTimeout);
+      clearTimeout(loopTimeout);
+    }
+
+    function runConvo() {
+      const s = scenarios[activeScenario];
+      convoEl.innerHTML = '';
+      bannerEl.style.opacity = 0;
+      acuityValue.textContent = s.acuity;
+      acuityValue.style.color = s.acuityColor;
+      acuityDelta.textContent = s.acuityDelta;
+      bannerText.textContent = s.banner;
+      bannerEl.style.background = s.bannerBg;
+
+      s.messages.forEach((msg, i) => {
+        setTimeout(() => {
+          if (msg.who === 'agent' && i > 0) {
+            const t = renderTyping();
+            setTimeout(() => {
+              t.remove();
+              renderMessage(msg);
+            }, 600);
+          } else {
+            renderMessage(msg);
+          }
+        }, msg.delay);
+      });
+
+      if (s.showBanner) {
+        convoTimeout = setTimeout(() => bannerEl.style.opacity = 1, 7000);
+      }
+      loopTimeout = setTimeout(runConvo, 14000);
+    }
+
+    document.querySelectorAll('.scenario-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.scenario-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        activeScenario = tab.dataset.scenario;
+        clearTimers();
+        runConvo();
+      });
+    });
+
+    runConvo();
+
+    // Call timer
+    let seconds = 42;
+    const timeEl = document.getElementById('call-time');
+    setInterval(() => {
+      seconds++;
+      const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const s = String(seconds % 60).padStart(2, '0');
+      timeEl.textContent = `00:${m}:${s}`;
+    }, 1000);
+
+    // ============================================
+    // NAV INDICATOR — slides between hovered items
+    // ============================================
+    const navMenu = document.getElementById('navMenu');
+    const navIndicator = document.getElementById('navIndicator');
+    const navLinks = navMenu.querySelectorAll('a:not(.nav-cta)');
+
+    function moveIndicatorTo(el) {
+      if (!el) return;
+      const menuRect = navMenu.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+      navIndicator.style.left = (elRect.left - menuRect.left) + 'px';
+      navIndicator.style.width = elRect.width + 'px';
+      navIndicator.classList.add('visible');
+    }
+
+    navLinks.forEach(link => {
+      link.addEventListener('mouseenter', () => moveIndicatorTo(link));
+    });
+
+    navMenu.addEventListener('mouseleave', () => {
+      navIndicator.classList.remove('visible');
+    });
+
+    // ============================================
+    // LIVE TRIAGED COUNTER — slowly increments
+    // ============================================
+    const liveCountEl = document.getElementById('liveCount');
+    let liveCount = 2847;
+    setInterval(() => {
+      liveCount += Math.floor(Math.random() * 3) + 1;
+      liveCountEl.textContent = liveCount.toLocaleString();
+    }, 2400);
+
+    // ============================================
+    // COUNT-UP NUMBERS
+    // ============================================
+    function countUp(el, target, duration = 1800, suffix = '') {
+      const start = performance.now();
+      const startVal = 0;
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = Math.floor(startVal + (target - startVal) * eased);
+        el.textContent = value + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+        else el.textContent = target + suffix;
+      }
+      requestAnimationFrame(tick);
+    }
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.dataset.count);
+          const suffix = el.dataset.suffix || '';
+          countUp(el, target, 1600, suffix);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el));
+
+    // ============================================
+    // SCROLL-PINNED STORY
+    // ============================================
+    const pinSection = document.querySelector('.pin-section');
+    const pinTexts = document.querySelectorAll('.pin-text');
+    const pinFrames = document.querySelectorAll('.pin-frame');
+    const pinDots = document.querySelectorAll('.pin-dot');
+    let currentStep = 0;
+
+    function setStep(step) {
+      if (step === currentStep) return;
+      currentStep = step;
+      pinTexts.forEach((t, i) => t.classList.toggle('active', i === step));
+      pinFrames.forEach((f, i) => f.classList.toggle('active', i === step));
+      pinDots.forEach((d, i) => d.classList.toggle('active', i === step));
+    }
+
+    function updatePinScroll() {
+      if (!pinSection) return;
+      const rect = pinSection.getBoundingClientRect();
+      const total = pinSection.offsetHeight - window.innerHeight;
+      if (total <= 0) return;
+      const progress = Math.max(0, Math.min(1, -rect.top / total));
+      let step = 0;
+      if (progress > 0.66) step = 2;
+      else if (progress > 0.33) step = 1;
+      setStep(step);
+    }
+
+    window.addEventListener('scroll', updatePinScroll, { passive: true });
+    updatePinScroll();
+
+    // ============================================
+    // MAGNETIC BUTTONS
+    // ============================================
+    document.querySelectorAll('.btn-primary, .nav-cta').forEach(btn => {
+      btn.style.transition = 'transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1)';
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.15}px, ${y * 0.25}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+      });
+    });
+
+    // ============================================
+    // PRODUCT PREVIEW TABS
+    // ============================================
+    document.querySelectorAll('.ptab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.ptab').forEach(t => t.classList.toggle('active', t === tab));
+        document.querySelectorAll('.ppanel').forEach(p => p.classList.toggle('active', p.dataset.panel === target));
+      });
+    });
+
+    document.querySelectorAll('.call-row').forEach(row => {
+      row.addEventListener('click', () => {
+        document.querySelectorAll('.call-row').forEach(r => r.classList.toggle('active', r === row));
+      });
+    });
+
+    // ============================================
+    // ROI CALCULATOR
+    // ============================================
+    const roiCalls = document.getElementById('roi-calls');
+    const roiTime = document.getElementById('roi-time');
+    const roiCost = document.getElementById('roi-cost');
+    const roiCallsOut = document.getElementById('roi-calls-out');
+    const roiTimeOut = document.getElementById('roi-time-out');
+    const roiCostOut = document.getElementById('roi-cost-out');
+    const roiHours = document.getElementById('roi-hours');
+    const roiCallsHandled = document.getElementById('roi-calls-handled');
+    const roiSavings = document.getElementById('roi-savings');
+
+    function fmtNum(n) { return Math.round(n).toLocaleString(); }
+    function fmtMoney(n) {
+      if (n >= 1000000) return '$' + (n/1000000).toFixed(2) + 'M';
+      if (n >= 1000) return '$' + Math.round(n/1000) + 'K';
+      return '$' + Math.round(n).toLocaleString();
+    }
+
+    function calcROI() {
+      const calls = +roiCalls.value;
+      const time = +roiTime.value;
+      const cost = +roiCost.value;
+      roiCallsOut.textContent = calls.toLocaleString();
+      roiTimeOut.textContent = time;
+      roiCostOut.textContent = '$' + cost;
+
+      const annualCalls = calls * 365;
+      const deflectionRate = 0.72; // 72% auto-handled
+      const handledCalls = annualCalls * deflectionRate;
+      const hoursSaved = (handledCalls * time) / 60;
+      const savings = hoursSaved * cost;
+
+      animateValue(roiHours, +roiHours.textContent.replace(/,/g, '') || 0, hoursSaved, fmtNum);
+      animateValue(roiCallsHandled, +roiCallsHandled.textContent.replace(/,/g, '') || 0, handledCalls, fmtNum);
+      animateValue(roiSavings, parseSavings(roiSavings.textContent), savings, fmtMoney);
+    }
+
+    function parseSavings(s) {
+      if (s.includes('M')) return parseFloat(s.replace(/[$M,]/g, '')) * 1000000;
+      if (s.includes('K')) return parseFloat(s.replace(/[$K,]/g, '')) * 1000;
+      return parseFloat(s.replace(/[$,]/g, '')) || 0;
+    }
+
+    function animateValue(el, from, to, fmt) {
+      const dur = 400;
+      const start = performance.now();
+      function step(now) {
+        const t = Math.min((now - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const v = from + (to - from) * eased;
+        el.textContent = fmt(v);
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    [roiCalls, roiTime, roiCost].forEach(el => el && el.addEventListener('input', calcROI));
+    if (roiCalls) calcROI();
+
+    // ============================================
+    // SCROLL REVEAL
+    // ============================================
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ============================================
+    // SMOOTH SCROLL
+    // ============================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href !== '#') {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // ============================================
+    // COMPARE SECTION — animate events on scroll
+    // ============================================
+    const compareObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        }
+      });
+    }, { threshold: 0.25 });
+    document.querySelectorAll('.compare-card').forEach(c => compareObserver.observe(c));
+
+    // ============================================
+    // PRICING TOGGLE — monthly / annual
+    // ============================================
+    const pricingToggleBtns = document.querySelectorAll('.pricing-toggle button');
+    pricingToggleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        pricingToggleBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const billing = btn.dataset.billing;
+        document.querySelectorAll('.pricing-price .amount').forEach(amt => {
+          const m = amt.dataset.monthly;
+          const a = amt.dataset.annual;
+          if (!m || !a) return; // skip "Custom"
+          const newVal = billing === 'annual' ? a : m;
+          // animate the change
+          amt.style.transition = 'opacity 200ms';
+          amt.style.opacity = '0';
+          setTimeout(() => {
+            amt.textContent = parseInt(newVal).toLocaleString();
+            amt.style.opacity = '1';
+          }, 200);
+        });
+        document.querySelectorAll('.pricing-price .period').forEach(p => {
+          if (p.textContent.includes('/')) {
+            p.textContent = billing === 'annual' ? '/ month, billed annually' : '/ month';
+          }
+        });
+      });
+    });
+
+    // ============================================
+    // INTEGRATIONS — tab filtering
+    // ============================================
+    const intTabs = document.querySelectorAll('.integrations-tab');
+    const intCards = document.querySelectorAll('#integrationsCloud .integration-card');
+    intTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        intTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const cat = tab.dataset.tab;
+        intCards.forEach(card => {
+          const show = cat === 'all' || card.dataset.cat === cat;
+          card.style.transition = 'opacity 250ms, transform 250ms';
+          if (show) {
+            card.style.display = '';
+            requestAnimationFrame(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'scale(1)';
+            });
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.9)';
+            setTimeout(() => { card.style.display = 'none'; }, 250);
+          }
+        });
+      });
+    });
+
+    // ============================================
+    // LIVE AI CHAT WIDGET — scripted demo conversation
+    // ============================================
+    (function initChat() {
+      const fab = document.getElementById('chatFab');
+      const panel = document.getElementById('chatPanel');
+      const closeBtn = document.getElementById('chatClose');
+      const body = document.getElementById('chatBody');
+      const input = document.getElementById('chatInput');
+      const sendBtn = document.getElementById('chatSend');
+      const suggestions = document.getElementById('chatSuggestions');
+
+      if (!fab || !panel) return;
+
+      let chatStarted = false;
+
+      const intents = {
+        pricing: {
+          match: /pric|cost|plan|tier|how much/i,
+          reply: "Plans start at $1,500/mo for Starter (up to 2,500 calls/mo). Growth is $4,800/mo for multi-site networks. Enterprise is custom — based on volume and deployment needs. Want me to walk you through which one fits?",
+          followUps: ['Tell me about Growth', 'How is Enterprise different?', 'Do you offer a free trial?']
+        },
+        demo: {
+          match: /demo|try it|book|schedule|call/i,
+          reply: "Of course — most demos take 25 minutes. We'll show you the live agent in action with your specific use case in mind. You can grab a slot here: kitogo.health/demo, or I can take your email and have someone reach out today.",
+          followUps: ['What do I need to prepare?', 'Can I see the dashboard?', 'How long is implementation?']
+        },
+        security: {
+          match: /hipaa|secur|compli|soc 2|hitrust|baa|encrypt|privacy/i,
+          reply: "Yes — we're HIPAA-compliant, SOC 2 Type II audited, and HITRUST CSF r2 validated. We sign BAAs with every customer. Data is AES-256 encrypted at rest, TLS 1.3 in transit, and we never use customer PHI for model training. Want our security one-pager?",
+          followUps: ['Send the security one-pager', 'Where is data stored?', 'Can I see the audit reports?']
+        },
+        integration: {
+          match: /epic|cerner|athena|integrat|ehr|emr|fhir|hl7/i,
+          reply: "We integrate directly with Epic, Cerner, athenahealth, Allscripts, eClinicalWorks, NextGen, MEDITECH, and 35+ others — plus FHIR R4 and HL7 v2 for anything custom. Most setups take 2 weeks end-to-end. Which EHR are you on?",
+          followUps: ['We use Epic', 'We use Cerner', 'Tell me about FHIR support']
+        },
+        triage: {
+          match: /triage|esi|protocol|symptom|diagnos|emergency|escalat/i,
+          reply: "KITOGO uses ESI 5-level and Manchester Triage System out of the box, and your clinical team can fully customize protocols. The agent never makes clinical decisions — it gathers a structured chief complaint and applies your rules. Red flags (chest pain, stroke symptoms, etc.) escalate to a live nurse within 30 seconds.",
+          followUps: ['How do red flags work?', 'Can we customize protocols?', 'What about pediatric cases?']
+        },
+        time: {
+          match: /how long|implement|setup|deploy|live|onboarding/i,
+          reply: "Most teams go live in 2 weeks. Week 1: integration kickoff, BAA, security review. Week 2: protocol configuration, soft launch in shadow mode. By week 3, you're in full production. Our deployment team handles the heavy lifting.",
+          followUps: ['What does shadow mode mean?', 'Who from our side is needed?', 'Can we go faster?']
+        },
+        default: {
+          reply: "Great question — let me get a real human on this with you. In the meantime, you can also book a 25-minute live demo at kitogo.health/demo, or I can connect you with our team. What works better?",
+          followUps: ['Book a demo', 'Have someone email me', 'Tell me about pricing']
+        }
+      };
+
+      function addMessage(text, who, delay = 0) {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            const msg = document.createElement('div');
+            msg.className = `chat-msg ${who}`;
+            msg.textContent = text;
+            body.appendChild(msg);
+            body.scrollTop = body.scrollHeight;
+            resolve();
+          }, delay);
+        });
+      }
+
+      function showTyping() {
+        const t = document.createElement('div');
+        t.className = 'chat-typing';
+        t.id = 'chatTyping';
+        t.innerHTML = '<span></span><span></span><span></span>';
+        body.appendChild(t);
+        body.scrollTop = body.scrollHeight;
+      }
+
+      function removeTyping() {
+        const t = document.getElementById('chatTyping');
+        if (t) t.remove();
+      }
+
+      function showSuggestions(items) {
+        suggestions.innerHTML = '';
+        items.forEach(text => {
+          const btn = document.createElement('button');
+          btn.className = 'chat-suggestion';
+          btn.textContent = text;
+          btn.onclick = () => handleUserMessage(text);
+          suggestions.appendChild(btn);
+        });
+      }
+
+      function findIntent(text) {
+        for (const [key, intent] of Object.entries(intents)) {
+          if (intent.match && intent.match.test(text)) return intent;
+        }
+        return intents.default;
+      }
+
+      async function handleUserMessage(text) {
+        if (!text.trim()) return;
+        suggestions.innerHTML = '';
+        await addMessage(text, 'user');
+        input.value = '';
+        showTyping();
+        await new Promise(r => setTimeout(r, 900 + Math.random() * 600));
+        removeTyping();
+        const intent = findIntent(text);
+        await addMessage(intent.reply, 'bot', 100);
+        if (intent.followUps) {
+          setTimeout(() => showSuggestions(intent.followUps), 400);
+        }
+      }
+
+      async function startChat() {
+        if (chatStarted) return;
+        chatStarted = true;
+        showTyping();
+        await new Promise(r => setTimeout(r, 800));
+        removeTyping();
+        await addMessage("Hi! I'm KITOGO — the same AI agent that triages calls for our customers. Ask me anything: pricing, security, integrations, how triage works.", 'bot');
+        showSuggestions(['How does pricing work?', 'Is it HIPAA-compliant?', 'Show me a demo', 'Does it integrate with Epic?']);
+      }
+
+      fab.addEventListener('click', () => {
+        panel.classList.add('open');
+        startChat();
+      });
+
+      closeBtn.addEventListener('click', () => panel.classList.remove('open'));
+
+      sendBtn.addEventListener('click', () => handleUserMessage(input.value));
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handleUserMessage(input.value);
+      });
+    })();
+    
+    // ============================================
+    // THEME TOGGLE — dark / light with persistence
+    // ============================================
+    (function initTheme() {
+      const toggle = document.getElementById('themeToggle');
+      const meta = document.querySelector('meta[name="theme-color"]');
+      function applyTheme(isDark) {
+        if (isDark) document.documentElement.setAttribute('data-theme', 'dark');
+        else document.documentElement.removeAttribute('data-theme');
+        if (meta) meta.setAttribute('content', isDark ? '#07122b' : '#0B5FFF');
+        if (toggle) {
+          toggle.setAttribute('aria-pressed', String(!!isDark));
+          toggle.querySelector('.theme-icon').textContent = isDark ? '☀️' : '🌙';
+        }
+        try { localStorage.setItem('kitogo-theme', isDark ? 'dark' : 'light'); } catch (e) {}
+      }
+
+      // read stored preference, else system preference
+      let pref = null;
+      try { pref = localStorage.getItem('kitogo-theme'); } catch (e) { pref = null; }
+      if (pref === 'dark') applyTheme(true);
+      else if (pref === 'light') applyTheme(false);
+      else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme(true);
+
+      if (toggle) {
+        toggle.addEventListener('click', () => {
+          const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+          applyTheme(!isDark);
+        });
+      }
+    })();
+
+    // ============================================
+    // SCROLL-DRIVEN WALKTHROUGH — Tier K
+    // ============================================
+    (function initWalkthrough() {
+      const pin = document.getElementById('walkthroughPin');
+      if (!pin) return;
+      const steps = pin.querySelectorAll('.walkthrough-step');
+      const scenes = pin.querySelectorAll('.walkthrough-scene');
+      const total = steps.length;
+      if (window.innerWidth <= 1024) return; // mobile shows static
+
+      let currentStep = -1;
+
+      function setStep(idx) {
+        if (idx === currentStep) return;
+        currentStep = idx;
+        steps.forEach((s, i) => s.classList.toggle('active', i === idx));
+        scenes.forEach((s, i) => s.classList.toggle('active', i === idx));
+      }
+
+      function onScroll() {
+        const rect = pin.getBoundingClientRect();
+        const total_h = pin.offsetHeight - window.innerHeight;
+        if (total_h <= 0) return;
+        const scrolled = -rect.top;
+        let progress = scrolled / total_h;
+        progress = Math.max(0, Math.min(1, progress));
+        const stepIdx = Math.min(total - 1, Math.floor(progress * total));
+        setStep(stepIdx);
+      }
+
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+    })();
+
+    // ============================================
+    // ARCHITECTURE DIAGRAM — Tier I (clickable nodes)
+    // ============================================
+    (function initArchitecture() {
+      const svg = document.getElementById('archSvg');
+      const detail = document.getElementById('archDetail');
+      if (!svg || !detail) return;
+
+      const details = {
+        phone: {
+          title: 'Patient phone (PSTN/SIP)',
+          desc: 'Inbound voice traffic from your existing phone number. KITOGO does not own or replace your phone system — calls are forwarded to a SIP trunk we maintain in your name.',
+          tags: ['SIP/RTP', 'Carrier-redundant', 'Forwarded number']
+        },
+        web: {
+          title: 'Web / SMS channel',
+          desc: 'Embeddable widget for your patient portal and an SMS-based intake flow. Used for non-urgent triage and follow-ups. Same protocol engine as the voice channel.',
+          tags: ['HTTPS', 'TLS 1.3', 'WebRTC fallback']
+        },
+        edge: {
+          title: 'Voice gateway (KITOGO VPC)',
+          desc: 'Where the call physically terminates inside our infrastructure. SRTP/DTLS-encrypted from the carrier handoff onward. No PHI persists at this layer — audio is streamed directly into the triage core.',
+          tags: ['SRTP', 'DTLS', 'No persistence']
+        },
+        api: {
+          title: 'API gateway',
+          desc: 'Authenticated entry point for web/SMS, dashboard, and customer-side integrations. Web Application Firewall, OAuth 2.1 with PKCE, rate-limiting, request signing.',
+          tags: ['WAF', 'OAuth 2.1', 'mTLS optional']
+        },
+        core: {
+          title: 'Triage core',
+          desc: 'Where ASR, NLU, and protocol execution happen. PHI is tokenized before it touches any reasoning layer. Your customer-specific protocols and decision rules live here. No customer PHI is ever used to train models without explicit opt-in.',
+          tags: ['Tokenized PHI', 'Customer-isolated', 'No training reuse']
+        },
+        vault: {
+          title: 'PHI vault',
+          desc: 'Structured intake records, audio recordings, and transcripts. AES-256 at rest with customer-managed KMS keys (Enterprise). Configurable retention from 30 days to 7 years. Every read is logged.',
+          tags: ['AES-256', 'CMK', 'Configurable retention']
+        },
+        audit: {
+          title: 'Audit log',
+          desc: 'Every PHI access event, configuration change, and admin action is logged immutably. Retained 7 years by default. Streamable to your SIEM via webhook or S3 mirror.',
+          tags: ['Immutable', '7-year retention', 'SIEM streaming']
+        },
+        egress: {
+          title: 'Egress router',
+          desc: 'The only path data takes from KITOGO to your environment. Outbound writes are FHIR R4 or HL7 v2. Egress is allowlisted to your specific endpoints — nothing flows anywhere else.',
+          tags: ['FHIR R4', 'HL7 v2', 'IP allowlisted']
+        },
+        ehr: {
+          title: 'Your EHR',
+          desc: 'Your system of record. KITOGO writes structured intake notes, transcripts, and audio file references — never reads patient charts unless explicitly authorized for a specific use case.',
+          tags: ['Write-mostly', 'BAA in place', 'You own the data']
+        },
+        'phone-system': {
+          title: 'Your phone system',
+          desc: 'KITOGO connects to whatever you already use — RingCentral, Twilio, Cisco, Genesys, or in-house PBX. The forward arrangement is configured during week 1 of implementation.',
+          tags: ['Vendor-agnostic', 'Forward arrangement']
+        },
+        dash: {
+          title: 'Staff dashboard',
+          desc: 'The web app your team uses to monitor calls, review queues, configure protocols, and pull analytics. SAML SSO, SCIM provisioning, granular RBAC, MFA enforced for all admin roles.',
+          tags: ['SAML SSO', 'SCIM', 'MFA', 'RBAC']
+        },
+        warehouse: {
+          title: 'Your warehouse (optional)',
+          desc: 'Stream KITOGO event data into Snowflake, Databricks, or your data lake for custom analytics. Opt-in only — most customers run on our built-in analytics.',
+          tags: ['Snowflake', 'Databricks', 'S3 mirror']
+        }
+      };
+
+      svg.querySelectorAll('.arch-node').forEach(node => {
+        node.addEventListener('click', () => {
+          const key = node.dataset.node;
+          const d = details[key];
+          if (!d) return;
+          detail.innerHTML = `
+            <h4>${d.title}</h4>
+            <p>${d.desc}</p>
+            <div class="arch-detail-tags">
+              ${d.tags.map(t => `<span class="arch-detail-tag">${t}</span>`).join('')}
+            </div>
+          `;
+          // Visual feedback
+          svg.querySelectorAll('.arch-node rect').forEach(r => r.setAttribute('stroke-width', r.getAttribute('stroke-width') === '2.5' ? '1' : r.getAttribute('stroke-width')));
+          const rect = node.querySelector('rect');
+          if (rect) {
+            const orig = rect.getAttribute('stroke-width');
+            rect.setAttribute('stroke-width', '2.5');
+            setTimeout(() => rect.setAttribute('stroke-width', orig), 1200);
+          }
+        });
+      });
+    })();
+
+    // ============================================
+    // TRUST REPORT — Tier G (live-feel counters)
+    // ============================================
+    (function initTrust() {
+      const callsEl = document.getElementById('trustCalls');
+      const latencyEl = document.getElementById('trustLatency');
+      const apiEl = document.getElementById('trustApi');
+      const uptimeEl = document.getElementById('trustUptime');
+      const routeEl = document.getElementById('trustRoute');
+      const feedEl = document.getElementById('trustFeed');
+      if (!callsEl) return;
+
+      let calls = 2847193;
+      // Increment calls counter every 1.5–4s to feel "live"
+      function tickCalls() {
+        const inc = Math.floor(Math.random() * 4) + 1;
+        calls += inc;
+        callsEl.textContent = calls.toLocaleString();
+        setTimeout(tickCalls, 1500 + Math.random() * 2500);
+      }
+
+      // Jitter the latency / api numbers slightly
+      function tickLatency() {
+        const lat = 138 + Math.floor(Math.random() * 12);
+        const api = 210 + Math.floor(Math.random() * 18);
+        if (latencyEl) latencyEl.textContent = lat + 'ms';
+        if (apiEl) apiEl.textContent = api + 'ms';
+        setTimeout(tickLatency, 3000);
+      }
+
+      // Activity feed: prepend a new item every 30s
+      const newEvents = [
+        { customer: 'Mercy Regional', text: 'Pediatric protocol matched · ESI 3 routed to PUC' },
+        { customer: 'Atlantic Health', text: 'Multi-language call (Spanish) handled · 1m 42s total' },
+        { customer: 'Pacific Care Group', text: '12 callbacks scheduled in last 15 minutes' },
+        { customer: 'System', text: 'Daily disaster recovery drill passed · RTO 1m 56s' },
+        { customer: 'Mercy Regional', text: 'Crisis-line escalation routed to live nurse · 22s' },
+        { customer: 'Northwest Health', text: 'Crossed 500K monthly call milestone' }
+      ];
+      let evtIdx = 0;
+      function tickFeed() {
+        if (!feedEl) return;
+        const evt = newEvents[evtIdx % newEvents.length];
+        evtIdx++;
+        const item = document.createElement('div');
+        item.className = 'trust-feed-item';
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(-8px)';
+        item.innerHTML = `<span class="trust-feed-time">just now</span><span class="trust-feed-text"><strong>${evt.customer}</strong> · ${evt.text}</span>`;
+        feedEl.insertBefore(item, feedEl.firstChild);
+        // animate in
+        requestAnimationFrame(() => {
+          item.style.transition = 'opacity 400ms, transform 400ms';
+          item.style.opacity = '1';
+          item.style.transform = 'translateY(0)';
+        });
+        // Update older "just now" items
+        const items = feedEl.querySelectorAll('.trust-feed-time');
+        items.forEach((t, i) => {
+          if (i === 0) return;
+          if (t.textContent === 'just now') t.textContent = '1m';
+        });
+        // Cap to 8 items
+        while (feedEl.children.length > 8) feedEl.removeChild(feedEl.lastChild);
+        setTimeout(tickFeed, 25000 + Math.random() * 10000);
+      }
+
+      // Only run when section enters viewport (saves CPU when off-screen)
+      const trustSection = document.getElementById('trust');
+      if (trustSection && 'IntersectionObserver' in window) {
+        let started = false;
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting && !started) {
+              started = true;
+              tickCalls();
+              tickLatency();
+              setTimeout(tickFeed, 8000);
+            }
+          });
+        }, { threshold: 0.1 });
+        obs.observe(trustSection);
+      }
+    })();
+    </script>
+</body>
+</html>
