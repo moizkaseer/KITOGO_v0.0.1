@@ -13,6 +13,7 @@ const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: "400",
   style: ["normal", "italic"],
+  adjustFontFallback: false,
 });
 
 const jetbrainsMono = JetBrains_Mono({
