@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import DemoFlow from './DemoFlow';
+import DemoDashboard from './DemoDashboard';
+import ActiveCallIndicator from './ActiveCallIndicator';
 
 export const metadata: Metadata = {
   title: 'Book a Demo — KITOGO Clinical AI Triage',
@@ -16,15 +18,26 @@ export default function DemoPage() {
   return (
     <>
       <Navbar />
+      <ActiveCallIndicator />
       <main id="main-content" className="demo-page">
         <div className="demo-flow-wrap">
           <div style={{ marginBottom: 32 }}>
-            <span className="eyebrow">Book a demo</span>
+            <span className="eyebrow">Live AI Agent Dashboard</span>
             <p style={{ fontSize: 'clamp(22px, 3vw, 30px)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--ink)', marginTop: 8, lineHeight: 1.2 }}>
-              25 minutes. Live agent. Your use case.
+              Real-time call monitoring and analysis
             </p>
           </div>
-          <DemoFlow />
+          <DemoDashboard />
+
+          <div style={{ marginTop: 64, paddingTop: 32, borderTop: '1px solid #e5e7eb' }}>
+            <div style={{ marginBottom: 32 }}>
+              <span className="eyebrow">Book a demo</span>
+              <p style={{ fontSize: 'clamp(22px, 3vw, 30px)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--ink)', marginTop: 8, lineHeight: 1.2 }}>
+                25 minutes. Live agent. Your use case.
+              </p>
+            </div>
+            <DemoFlow />
+          </div>
         </div>
       </main>
       <Footer />
