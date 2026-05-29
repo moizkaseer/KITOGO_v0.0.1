@@ -1,3 +1,5 @@
+import { NextResponse } from 'next/server';
+
 // Test endpoint to simulate Retell webhooks
 export async function POST(req: Request) {
   try {
@@ -22,7 +24,7 @@ export async function POST(req: Request) {
     );
 
     const result = await response.json();
-    return Response.json({
+    return NextResponse.json({
       success: response.ok,
       testEvent,
       result,

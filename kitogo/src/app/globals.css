@@ -248,6 +248,18 @@
       color: var(--blue);
     }
 
+    .nav-dashboard {
+      border: 1px solid rgba(11, 95, 255, 0.3) !important;
+      color: var(--blue) !important;
+      padding: 8px 16px !important;
+      border-radius: 8px;
+    }
+
+    .nav-dashboard:hover {
+      background: rgba(11, 95, 255, 0.07) !important;
+      border-color: var(--blue) !important;
+    }
+
     .nav-cta {
       background: var(--ink);
       color: white !important;

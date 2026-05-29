@@ -83,6 +83,11 @@ export default function Navbar() {
             </li>
           ))}
           <li role="none">
+            <Link href="/dashboard" className="nav-dashboard" role="menuitem" onMouseEnter={handleMouseEnter}>
+              Dashboard →
+            </Link>
+          </li>
+          <li role="none">
             <Link href="/demo" className="nav-cta" role="menuitem" onMouseEnter={handleMouseEnter}>
               Book demo
             </Link>
