@@ -100,7 +100,7 @@ function shortDetail(call: Call, idx: number) {
   return `${labels[idx % labels.length]} · ${formatDuration(call.duration_seconds)}`;
 }
 
-export default function LiveDashboard() {
+export default function LiveDashboard({ onLogout }: { onLogout?: () => void }) {
   const [activeTab, setActiveTab] = useState<Tab>('live');
   const [calls, setCalls] = useState<Call[]>(MOCK_CALLS);
   const [activeCall, setActiveCall] = useState(0);
@@ -196,6 +196,11 @@ export default function LiveDashboard() {
               </div>
             )}
             <a href="/" className="dash-back">← Back to site</a>
+            {onLogout && (
+              <button onClick={onLogout} className="dash-back" style={{ background: 'transparent', border: '1px solid rgba(10,31,68,0.2)', color: '#64748b', cursor: 'pointer' }}>
+                Sign out
+              </button>
+            )}
           </div>
         </div>
 
