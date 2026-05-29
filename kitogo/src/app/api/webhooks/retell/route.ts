@@ -2,20 +2,20 @@ import { createClient } from '@supabase/supabase-js';
 import Anthropic from '@anthropic-ai/sdk';
 import { NextResponse } from 'next/server';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const anthropicApiKey = process.env.ANTHROPIC_API_KEY;
+export const dynamic = 'force-dynamic';
 
-if (!supabaseUrl || !supabaseServiceKey) {
-  console.warn('[Retell Webhook] Missing Supabase credentials');
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) throw new Error('Supabase credentials not configured');
+  return createClient(url, key);
 }
+type SB = ReturnType<typeof getSupabase>;
 
-if (!anthropicApiKey) {
-  console.warn('[Retell Webhook] Missing Anthropic API key - summaries will be skipped');
+function getAnthropic(): Anthropic | null {
+  const key = process.env.ANTHROPIC_API_KEY;
+  return key ? new Anthropic({ apiKey: key }) : null;
 }
-
-const supabase = createClient(supabaseUrl || '', supabaseServiceKey || '');
-const anthropic = anthropicApiKey ? new Anthropic({ apiKey: anthropicApiKey }) : null;
 
 interface RetellEvent {
   event: string;
@@ -27,7 +27,7 @@ interface RetellEvent {
   [key: string]: any;
 }
 
-async function saveEventLog(event: RetellEvent) {
+async function saveEventLog(supabase: SB, event: RetellEvent) {
   try {
     await supabase.from('call_events').insert({
       retell_call_id: event.call_id,
@@ -45,6 +45,7 @@ async function generateSummary(transcript: string | null | undefined, callId: st
     return null;
   }
 
+  const anthropic = getAnthropic();
   if (!anthropic) {
     console.warn('[Retell Webhook] Anthropic not configured, skipping summary');
     return null;
@@ -72,7 +73,7 @@ async function generateSummary(transcript: string | null | undefined, callId: st
   }
 }
 
-async function saveCompletedCall(event: RetellEvent) {
+async function saveCompletedCall(supabase: SB, event: RetellEvent) {
   const callData: Record<string, unknown> = {
     retell_call_id: event.call_id,
     phone_from: event.from_number || null,
@@ -128,8 +129,19 @@ export async function POST(req: Request) {
 
   console.log(`[Retell Webhook] Received: ${event.event} (${event.call_id})`);
 
+  let supabase: SB;
+  try {
+    supabase = getSupabase();
+  } catch (error) {
+    console.error('[Retell Webhook] Supabase init failed:', error);
+    return NextResponse.json(
+      { ok: false, error: 'Server not configured' },
+      { status: 500 }
+    );
+  }
+
   // Always log the event
-  await saveEventLog(event);
+  await saveEventLog(supabase, event);
 
   // Handle different event types
   try {
@@ -139,7 +151,7 @@ export async function POST(req: Request) {
         break;
 
       case 'call_ended':
-        await saveCompletedCall(event);
+        await saveCompletedCall(supabase, event);
         break;
 
       case 'call_analyzed':
@@ -164,7 +176,7 @@ export async function POST(req: Request) {
 
 // Health check
 export async function GET() {
-  const healthy = !!supabaseUrl && !!supabaseServiceKey;
+  const healthy = !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.SUPABASE_SERVICE_ROLE_KEY;
   return NextResponse.json({
     status: healthy ? 'healthy' : 'missing-credentials',
     supabaseConfigured: healthy,

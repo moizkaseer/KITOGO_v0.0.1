@@ -1,13 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+export const dynamic = 'force-dynamic';
 
-const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '');
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) throw new Error('Supabase credentials not configured');
+  return createClient(url, key);
+}
 
 export async function GET(request: Request) {
   try {
+    const supabase = getSupabase();
     const { searchParams } = new URL(request.url);
     const days = parseInt(searchParams.get('days') || '1', 10);
     const since = new Date();
