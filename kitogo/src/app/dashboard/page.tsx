@@ -1,32 +1,72 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
 import LiveDashboard from './LiveDashboard';
-
-const DASHBOARD_PASSWORD = 'kitogo2024'; // Change this to your secure password
 
 export default function DashboardPage() {
   const [isAuthed, setIsAuthed] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setMounted(true);
     // Check if already authed in this session
     const authed = sessionStorage.getItem('dashboard-authed') === 'true';
-    if (authed) setIsAuthed(true);
+    if (authed) {
+      setIsAuthed(true);
+      setLoading(false);
+    }
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === DASHBOARD_PASSWORD) {
-      sessionStorage.setItem('dashboard-authed', 'true');
-      setIsAuthed(true);
-      setError('');
-    } else {
-      setError('Incorrect password');
-      setPassword('');
+    setError('');
+    setLoading(true);
+
+    try {
+      const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+      if (!url || !key) {
+        setError('Server not configured');
+        setLoading(false);
+        return;
+      }
+
+      const supabase = createClient(url, key);
+
+      // Fetch dashboard password from config table
+      const { data, error: dbError } = await supabase
+        .from('config')
+        .select('value')
+        .eq('key', 'dashboard_password')
+        .single();
+
+      if (dbError) {
+        console.error('Error fetching password:', dbError);
+        setError('Server error');
+        setLoading(false);
+        return;
+      }
+
+      const correctPassword = data?.value;
+
+      if (password === correctPassword) {
+        sessionStorage.setItem('dashboard-authed', 'true');
+        setIsAuthed(true);
+        setPassword('');
+      } else {
+        setError('Incorrect password');
+        setPassword('');
+      }
+    } catch (error) {
+      console.error('Auth error:', error);
+      setError('Authentication failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,6 +118,7 @@ export default function DashboardPage() {
               placeholder="Enter password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
               style={{
                 width: '100%',
                 padding: '12px 16px',
@@ -88,9 +129,10 @@ export default function DashboardPage() {
                 boxSizing: 'border-box',
                 transition: 'all 200ms',
                 outline: 'none',
+                opacity: loading ? 0.6 : 1,
               }}
-              onFocus={(e) => e.target.style.borderColor = '#0B5FFF'}
-              onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
+              onFocus={(e) => !loading && (e.target.style.borderColor = '#0B5FFF')}
+              onBlur={(e) => !loading && (e.target.style.borderColor = '#e2e8f0')}
             />
             {error && (
               <p style={{
@@ -104,22 +146,24 @@ export default function DashboardPage() {
             )}
             <button
               type="submit"
+              disabled={loading}
               style={{
                 width: '100%',
                 padding: '12px 16px',
-                background: '#0A1F44',
+                background: loading ? '#cbd5e1' : '#0A1F44',
                 color: 'white',
                 border: 'none',
                 borderRadius: '10px',
                 fontSize: '14px',
                 fontWeight: 600,
-                cursor: 'pointer',
+                cursor: loading ? 'not-allowed' : 'pointer',
                 transition: 'all 200ms',
+                opacity: loading ? 0.7 : 1,
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = '#0B5FFF'}
-              onMouseLeave={(e) => e.currentTarget.style.background = '#0A1F44'}
+              onMouseEnter={(e) => !loading && (e.currentTarget.style.background = '#0B5FFF')}
+              onMouseLeave={(e) => !loading && (e.currentTarget.style.background = '#0A1F44')}
             >
-              Unlock Dashboard
+              {loading ? 'Unlocking…' : 'Unlock Dashboard'}
             </button>
           </form>
 
