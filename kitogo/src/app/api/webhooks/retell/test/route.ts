@@ -30,7 +30,7 @@ export async function POST(req: Request) {
       result,
     });
   } catch (error) {
-    return Response.json(
+    return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
