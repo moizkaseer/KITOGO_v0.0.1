@@ -58,7 +58,7 @@ const MOCK_CALLS: Call[] = [
 const NAMES = ['James Mwangi', 'Aisha Saleh', 'Dana Kim', 'Robert Patel', 'Elena Cruz', 'Maria Tanaka', 'Liam Brown', 'Sade Okafor'];
 
 function callerName(phone: string | null, i: number) {
-  return phone ?? 'Unknown caller';
+  return phone ?? 'Client';
 }
 
 function callerInitials(phone: string | null) {
