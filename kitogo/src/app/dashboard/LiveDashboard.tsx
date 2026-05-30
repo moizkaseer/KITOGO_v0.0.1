@@ -58,12 +58,13 @@ const MOCK_CALLS: Call[] = [
 const NAMES = ['James Mwangi', 'Aisha Saleh', 'Dana Kim', 'Robert Patel', 'Elena Cruz', 'Maria Tanaka', 'Liam Brown', 'Sade Okafor'];
 
 function callerName(phone: string | null, i: number) {
-  return phone ? NAMES[i % NAMES.length] : 'Unknown caller';
+  return phone ?? 'Unknown caller';
 }
 
-function callerInitials(phone: string | null, i: number) {
-  const name = NAMES[i % NAMES.length].split(' ');
-  return phone ? name[0][0] + name[1][0] : 'UC';
+function callerInitials(phone: string | null) {
+  if (!phone) return 'UC';
+  const digits = phone.replace(/\D/g, '');
+  return digits.slice(-4, -2) || '??';
 }
 
 function getAcuity(call: Call): { esi: number; cls: string; bg: string; color: string } {
@@ -234,7 +235,7 @@ export default function LiveDashboard({ onLogout }: { onLogout?: () => void }) {
                         onClick={() => setActiveCall(i)}
                       >
                         <div className="call-avatar" style={{ background: acu.bg, color: acu.color }}>
-                          {callerInitials(call.phone_from, i)}
+                          {callerInitials(call.phone_from)}
                         </div>
                         <div className="call-info">
                           <div className="call-name">{callerName(call.phone_from, i)}</div>
@@ -272,12 +273,12 @@ export default function LiveDashboard({ onLogout }: { onLogout?: () => void }) {
                       <div className="cdp-section">
                         <div className="cdp-section-title">Live transcript</div>
                         <div className="cdp-transcript">
-                          {selected.transcript.split(/(?=Patient:|Agent:)/g).filter(Boolean).map((line, i) => {
-                            const isAgent = line.trim().startsWith('Agent:');
-                            const text = line.replace(/^(Patient:|Agent:)/, '').trim();
+                          {selected.transcript.split(/(?=Agent:|User:|Patient:)/gi).filter(Boolean).map((line, i) => {
+                            const isAgent = /^agent:/i.test(line.trim());
+                            const text = line.replace(/^(Agent:|User:|Patient:)/i, '').trim();
                             return (
                               <div key={i} className={`trans-line${isAgent ? ' agent-line' : ''}`}>
-                                <b className={isAgent ? 'agent-tag' : 'patient-tag'}>{isAgent ? 'Agent' : 'Patient'}</b>{' '}
+                                <b className={isAgent ? 'agent-tag' : 'patient-tag'}>{isAgent ? 'Agent' : 'Caller'}</b>{' '}
                                 &quot;{text}&quot;
                               </div>
                             );

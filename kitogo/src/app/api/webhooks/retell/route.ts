@@ -124,9 +124,9 @@ export async function POST(req: Request) {
     );
   }
 
-  // Normalize: Retell may nest call fields inside a `call` object
-  if (event.call && !event.call_id) {
-    event.call_id = event.call.call_id;
+  // Normalize: Retell nests call fields inside a `call` object
+  if (event.call) {
+    event.call_id = event.call_id ?? event.call.call_id;
     event.from_number = event.from_number ?? event.call.from_number;
     event.to_number = event.to_number ?? event.call.to_number;
     event.duration_ms = event.duration_ms ?? event.call.duration_ms;
