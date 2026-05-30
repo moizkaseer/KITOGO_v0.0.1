@@ -11,16 +11,23 @@ function getSupabase() {
 }
 type SB = ReturnType<typeof getSupabase>;
 
-function getGroqKey(): string | null {
-  return process.env.GROQ_API_KEY ?? null;
-}
-
 interface RetellCallObject {
   call_id: string;
   from_number?: string;
   to_number?: string;
   duration_ms?: number;
   transcript?: string;
+  call_analysis?: {
+    call_summary?: string;
+    user_sentiment?: string;
+    custom_analysis_data?: {
+      feeling_status?: string;
+      urgent_need?: boolean;
+      concern_summary?: string;
+      [key: string]: any;
+    };
+    [key: string]: any;
+  };
   [key: string]: any;
 }
 
@@ -32,6 +39,7 @@ interface RetellEvent {
   to_number?: string;
   duration_ms?: number;
   transcript?: string;
+  call_analysis?: RetellCallObject['call_analysis'];
   [key: string]: any;
 }
 
@@ -48,94 +56,52 @@ async function saveEventLog(supabase: SB, event: RetellEvent) {
   }
 }
 
-async function generateSummary(transcript: string | null | undefined, callId: string): Promise<string | null> {
-  if (!transcript || transcript.trim().length === 0) return null;
-
-  const apiKey = getGroqKey();
-  if (!apiKey) {
-    console.warn('[Retell Webhook] GROQ_API_KEY not configured, skipping summary');
-    return null;
-  }
-
-  try {
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
-      body: JSON.stringify({
-        model: 'llama3-8b-8192',
-        max_tokens: 200,
-        messages: [{ role: 'user', content: `Summarize this call transcript in 1-2 sentences:\n\n${transcript}` }],
-      }),
-    });
-
-    if (!res.ok) throw new Error(`Groq API error: ${res.status}`);
-    const data = await res.json();
-    const summary = data.choices?.[0]?.message?.content ?? null;
-    console.log('[Retell Webhook] ✓ Summary generated:', callId);
-    return summary;
-  } catch (error) {
-    console.error('[Retell Webhook] Failed to generate summary:', error);
-    return null;
-  }
-}
-
-async function saveCompletedCall(supabase: SB, event: RetellEvent) {
-  const callData: Record<string, unknown> = {
+// Build the row we persist to the `calls` table from a (normalized) event.
+function buildCallData(event: RetellEvent) {
+  const analysis = event.call_analysis;
+  return {
     retell_call_id: event.call_id,
     phone_from: event.from_number || null,
     phone_to: event.to_number || null,
     transcript: event.transcript || null,
     duration_seconds: event.duration_ms ? Math.round(event.duration_ms / 1000) : null,
     status: 'completed',
+    // Retell ships a ready-made summary + sentiment in call_analysis — no LLM call needed.
+    // We fold feeling_status into sentiment so the dashboard can rate wellbeing without
+    // requiring extra columns in the `calls` table.
+    summary: analysis?.call_summary || null,
+    sentiment:
+      analysis?.user_sentiment
+        ? analysis.custom_analysis_data?.feeling_status
+          ? `${analysis.user_sentiment} · ${analysis.custom_analysis_data.feeling_status}`
+          : analysis.user_sentiment
+        : null,
   };
-
-  // Generate summary if we have a transcript
-  if (callData.transcript) {
-    callData.summary = await generateSummary(callData.transcript as string, event.call_id!);
-  }
-
-  const { error: insertError } = await supabase
-    .from('calls')
-    .insert(callData);
-
-  if (insertError) {
-    console.error('[Retell Webhook] Failed to save call:', insertError);
-    throw insertError;
-  }
-
-  console.log('[Retell Webhook] ✓ Call saved:', event.call_id, {
-    duration: callData.duration_seconds,
-    from: callData.phone_from,
-    to: callData.phone_to,
-    hasSummary: !!callData.summary,
-  });
 }
 
-async function saveAnalyzedCall(supabase: SB, event: RetellEvent) {
-  const transcript = event.transcript || null;
-  const summary = transcript ? await generateSummary(transcript, event.call_id!) : null;
+async function upsertCall(supabase: SB, event: RetellEvent) {
+  const callData = buildCallData(event);
 
-  // Try to update existing record first, insert if not found
+  // Only write columns that are non-null so a later call_ended (no analysis)
+  // doesn't wipe a summary saved by an earlier call_analyzed, and vice-versa.
   const { data: existing } = await supabase
     .from('calls')
     .select('id')
     .eq('retell_call_id', event.call_id)
-    .single();
+    .maybeSingle();
 
   if (existing) {
-    await supabase.from('calls').update({ transcript, summary }).eq('retell_call_id', event.call_id);
-    console.log('[Retell Webhook] ✓ Call updated with transcript/summary:', event.call_id);
+    const patch: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(callData)) {
+      if (v !== null && v !== undefined) patch[k] = v;
+    }
+    const { error } = await supabase.from('calls').update(patch).eq('retell_call_id', event.call_id);
+    if (error) throw error;
+    console.log('[Retell Webhook] ✓ Call updated:', event.call_id, { hasSummary: !!callData.summary });
   } else {
-    await supabase.from('calls').insert({
-      retell_call_id: event.call_id,
-      phone_from: event.from_number || null,
-      phone_to: event.to_number || null,
-      transcript,
-      summary,
-      duration_seconds: event.duration_ms ? Math.round(event.duration_ms / 1000) : null,
-      status: 'completed',
-    });
-    console.log('[Retell Webhook] ✓ Call inserted from analyzed event:', event.call_id);
+    const { error } = await supabase.from('calls').insert(callData);
+    if (error) throw error;
+    console.log('[Retell Webhook] ✓ Call inserted:', event.call_id, { hasSummary: !!callData.summary });
   }
 }
 
@@ -146,10 +112,7 @@ export async function POST(req: Request) {
     event = await req.json();
   } catch (error) {
     console.error('[Retell Webhook] Invalid JSON:', error);
-    return NextResponse.json(
-      { ok: false, error: 'Invalid JSON payload' },
-      { status: 400 }
-    );
+    return NextResponse.json({ ok: false, error: 'Invalid JSON payload' }, { status: 400 });
   }
 
   // Normalize: Retell nests call fields inside a `call` object
@@ -159,15 +122,12 @@ export async function POST(req: Request) {
     event.to_number = event.to_number ?? event.call.to_number;
     event.duration_ms = event.duration_ms ?? event.call.duration_ms;
     event.transcript = event.transcript ?? event.call.transcript;
+    event.call_analysis = event.call_analysis ?? event.call.call_analysis;
   }
 
-  // Validate required fields
   if (!event.call_id || !event.event) {
     console.error('[Retell Webhook] Missing required fields:', { call_id: event.call_id, event: event.event });
-    return NextResponse.json(
-      { ok: false, error: 'Missing call_id or event type' },
-      { status: 400 }
-    );
+    return NextResponse.json({ ok: false, error: 'Missing call_id or event type' }, { status: 400 });
   }
 
   console.log(`[Retell Webhook] Received: ${event.event} (${event.call_id})`);
@@ -177,16 +137,11 @@ export async function POST(req: Request) {
     supabase = getSupabase();
   } catch (error) {
     console.error('[Retell Webhook] Supabase init failed:', error);
-    return NextResponse.json(
-      { ok: false, error: 'Server not configured' },
-      { status: 500 }
-    );
+    return NextResponse.json({ ok: false, error: 'Server not configured' }, { status: 500 });
   }
 
-  // Always log the event
   await saveEventLog(supabase, event);
 
-  // Handle different event types
   try {
     switch (event.event) {
       case 'call_started':
@@ -194,18 +149,16 @@ export async function POST(req: Request) {
         break;
 
       case 'call_ended':
-        await saveCompletedCall(supabase, event);
-        break;
-
       case 'call_analyzed':
-        await saveAnalyzedCall(supabase, event);
+        // call_ended gives us the transcript; call_analyzed adds the summary + sentiment.
+        // upsertCall merges both so whichever arrives second fills in the gaps.
+        await upsertCall(supabase, event);
         break;
 
       default:
         console.log('[Retell Webhook] Unknown event type:', event.event);
     }
 
-    // Return 200 OK immediately
     return NextResponse.json({ ok: true, call_id: event.call_id });
   } catch (error) {
     console.error('[Retell Webhook] Processing error:', error);

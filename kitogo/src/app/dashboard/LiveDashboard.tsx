@@ -81,6 +81,24 @@ function getAcuity(call: Call): { esi: number; cls: string; bg: string; color: s
   return { esi: 5, cls: 'p5', bg: 'rgba(15,108,63,0.1)', color: 'var(--success)' };
 }
 
+// Rates how the caller is doing, derived from Retell's sentiment + feeling_status
+// (stored in `sentiment` as e.g. "Positive · Well") with a fallback to summary keywords.
+function getWellbeing(call: Call): { label: string; score: string; color: string; bg: string } {
+  const sent = (call.sentiment || '').toLowerCase();
+  const text = `${call.sentiment || ''} ${call.summary || ''}`.toLowerCase();
+
+  if (sent.includes('negative') || text.includes('urgent') || text.includes('distress') || text.includes('unwell') || text.includes('pain')) {
+    return { label: 'Needs attention', score: 'Low', color: 'var(--danger)', bg: 'rgba(185,28,28,0.1)' };
+  }
+  if (sent.includes('neutral') || text.includes('reluctant') || text.includes('concern') || text.includes('follow')) {
+    return { label: 'Monitor', score: 'Fair', color: '#d97706', bg: 'rgba(217,119,6,0.1)' };
+  }
+  if (sent.includes('positive') || text.includes('well') || text.includes('good')) {
+    return { label: 'Doing well', score: 'Good', color: 'var(--success)', bg: 'rgba(15,108,63,0.1)' };
+  }
+  return { label: 'Unrated', score: '—', color: '#64748b', bg: 'rgba(100,116,139,0.1)' };
+}
+
 function formatDuration(s: number | null) {
   if (!s) return '—';
   const m = Math.floor(s / 60), sec = s % 60;
@@ -178,7 +196,7 @@ export default function LiveDashboard({ onLogout }: { onLogout?: () => void }) {
               {isLive ? <><span className="live-dot" /> LIVE DATA</> : 'MOCK MODE · Awaiting real calls'}
             </span>
             <h2>Live triage <span className="serif">command center</span></h2>
-            <p className="section-sub">Real-time AI agent monitoring · {totalCalls} calls today · Powered by Retell + Claude</p>
+            <p className="section-sub">Real-time AI agent monitoring · {totalCalls} calls today · Powered by Retell + Twilio</p>
           </div>
 
           <div className="dash-head-right">
@@ -256,9 +274,9 @@ export default function LiveDashboard({ onLogout }: { onLogout?: () => void }) {
                           Call ID {selected.retell_call_id.slice(0, 12)} · {mounted ? formatRelative(selected.created_at) : ''} · {formatDuration(selected.duration_seconds)}
                         </div>
                       </div>
-                      <div className="cdp-confidence">
-                        <div className="cdp-conf-num">{getAcuity(selected).esi <= 2 ? '98.7%' : '99.2%'}</div>
-                        <div className="cdp-conf-label">confidence</div>
+                      <div className="cdp-confidence" style={{ background: getWellbeing(selected).bg, borderColor: getWellbeing(selected).color }}>
+                        <div className="cdp-conf-num" style={{ color: getWellbeing(selected).color, fontSize: 18 }}>{getWellbeing(selected).score}</div>
+                        <div className="cdp-conf-label" style={{ color: getWellbeing(selected).color }}>{getWellbeing(selected).label}</div>
                       </div>
                     </div>
 
