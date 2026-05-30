@@ -151,6 +151,12 @@ export default function LiveDashboard({ onLogout }: { onLogout?: () => void }) {
         setNewIds(prev => new Set([...prev, c.id]));
         setIsLive(true);
         setTimeout(() => setNewIds(prev => { const n = new Set(prev); n.delete(c.id); return n; }), 3000);
+      })
+      // call_analyzed updates the row ~3s after call_ended to add the summary/sentiment
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'calls' }, ({ new: row }) => {
+        const c = row as Call;
+        setCalls(prev => prev.map(existing => existing.id === c.id ? { ...existing, ...c } : existing));
+        setIsLive(true);
       }).subscribe();
 
     const eventsSub = supabase.channel('db-events')
@@ -196,7 +202,7 @@ export default function LiveDashboard({ onLogout }: { onLogout?: () => void }) {
               {isLive ? <><span className="live-dot" /> LIVE DATA</> : 'MOCK MODE · Awaiting real calls'}
             </span>
             <h2>Live triage <span className="serif">command center</span></h2>
-            <p className="section-sub">Real-time AI agent monitoring · {totalCalls} calls today · Powered by Retell + Twilio</p>
+            <p className="section-sub">Real-time AI agent monitoring · {totalCalls} calls today · Powered by Retell + Twiliosti</p>
           </div>
 
           <div className="dash-head-right">
