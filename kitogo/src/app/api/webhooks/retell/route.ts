@@ -17,9 +17,19 @@ function getAnthropic(): Anthropic | null {
   return key ? new Anthropic({ apiKey: key }) : null;
 }
 
+interface RetellCallObject {
+  call_id: string;
+  from_number?: string;
+  to_number?: string;
+  duration_ms?: number;
+  transcript?: string;
+  [key: string]: any;
+}
+
 interface RetellEvent {
   event: string;
-  call_id: string;
+  call_id?: string;
+  call?: RetellCallObject;
   from_number?: string;
   to_number?: string;
   duration_ms?: number;
@@ -85,7 +95,7 @@ async function saveCompletedCall(supabase: SB, event: RetellEvent) {
 
   // Generate summary if we have a transcript
   if (callData.transcript) {
-    callData.summary = await generateSummary(callData.transcript as string, event.call_id);
+    callData.summary = await generateSummary(callData.transcript as string, event.call_id!);
   }
 
   const { error: insertError } = await supabase
@@ -116,6 +126,15 @@ export async function POST(req: Request) {
       { ok: false, error: 'Invalid JSON payload' },
       { status: 400 }
     );
+  }
+
+  // Normalize: Retell may nest call fields inside a `call` object
+  if (event.call && !event.call_id) {
+    event.call_id = event.call.call_id;
+    event.from_number = event.from_number ?? event.call.from_number;
+    event.to_number = event.to_number ?? event.call.to_number;
+    event.duration_ms = event.duration_ms ?? event.call.duration_ms;
+    event.transcript = event.transcript ?? event.call.transcript;
   }
 
   // Validate required fields
