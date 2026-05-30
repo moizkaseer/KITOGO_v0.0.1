@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js';
-import Anthropic from '@anthropic-ai/sdk';
 import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
@@ -12,9 +11,8 @@ function getSupabase() {
 }
 type SB = ReturnType<typeof getSupabase>;
 
-function getAnthropic(): Anthropic | null {
-  const key = process.env.ANTHROPIC_API_KEY;
-  return key ? new Anthropic({ apiKey: key }) : null;
+function getGroqKey(): string | null {
+  return process.env.GROQ_API_KEY ?? null;
 }
 
 interface RetellCallObject {
@@ -51,34 +49,32 @@ async function saveEventLog(supabase: SB, event: RetellEvent) {
 }
 
 async function generateSummary(transcript: string | null | undefined, callId: string): Promise<string | null> {
-  if (!transcript || transcript.trim().length === 0) {
-    return null;
-  }
+  if (!transcript || transcript.trim().length === 0) return null;
 
-  const anthropic = getAnthropic();
-  if (!anthropic) {
-    console.warn('[Retell Webhook] Anthropic not configured, skipping summary');
+  const apiKey = getGroqKey();
+  if (!apiKey) {
+    console.warn('[Retell Webhook] GROQ_API_KEY not configured, skipping summary');
     return null;
   }
 
   try {
-    const message = await anthropic.messages.create({
-      model: 'claude-haiku-4-5-20241022',
-      max_tokens: 200,
-      messages: [
-        {
-          role: 'user',
-          content: `Summarize this call transcript in 1-2 sentences:\n\n${transcript}`,
-        },
-      ],
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model: 'llama3-8b-8192',
+        max_tokens: 200,
+        messages: [{ role: 'user', content: `Summarize this call transcript in 1-2 sentences:\n\n${transcript}` }],
+      }),
     });
 
-    const summary = message.content[0].type === 'text' ? message.content[0].text : null;
+    if (!res.ok) throw new Error(`Groq API error: ${res.status}`);
+    const data = await res.json();
+    const summary = data.choices?.[0]?.message?.content ?? null;
     console.log('[Retell Webhook] ✓ Summary generated:', callId);
     return summary;
   } catch (error) {
     console.error('[Retell Webhook] Failed to generate summary:', error);
-    // Don't block call save on summary failure
     return null;
   }
 }
