@@ -111,6 +111,34 @@ async function saveCompletedCall(supabase: SB, event: RetellEvent) {
   });
 }
 
+async function saveAnalyzedCall(supabase: SB, event: RetellEvent) {
+  const transcript = event.transcript || null;
+  const summary = transcript ? await generateSummary(transcript, event.call_id!) : null;
+
+  // Try to update existing record first, insert if not found
+  const { data: existing } = await supabase
+    .from('calls')
+    .select('id')
+    .eq('retell_call_id', event.call_id)
+    .single();
+
+  if (existing) {
+    await supabase.from('calls').update({ transcript, summary }).eq('retell_call_id', event.call_id);
+    console.log('[Retell Webhook] ✓ Call updated with transcript/summary:', event.call_id);
+  } else {
+    await supabase.from('calls').insert({
+      retell_call_id: event.call_id,
+      phone_from: event.from_number || null,
+      phone_to: event.to_number || null,
+      transcript,
+      summary,
+      duration_seconds: event.duration_ms ? Math.round(event.duration_ms / 1000) : null,
+      status: 'completed',
+    });
+    console.log('[Retell Webhook] ✓ Call inserted from analyzed event:', event.call_id);
+  }
+}
+
 export async function POST(req: Request) {
   let event: RetellEvent;
 
@@ -170,8 +198,7 @@ export async function POST(req: Request) {
         break;
 
       case 'call_analyzed':
-        console.log('[Retell Webhook] Call analyzed:', event.call_id);
-        // Could store analysis results here
+        await saveAnalyzedCall(supabase, event);
         break;
 
       default:
