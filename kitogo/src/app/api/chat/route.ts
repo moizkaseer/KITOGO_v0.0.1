@@ -1,29 +1,18 @@
 import { NextRequest } from 'next/server';
 import { findIntent } from '@/lib/chat-fallback';
+import { createRateLimiter } from '@/lib/rate-limit';
 
 // To enable real Claude AI streaming:
 // 1. npm install @anthropic-ai/sdk
 // 2. Add ANTHROPIC_API_KEY=sk-... to .env.local
 // 3. Uncomment the Anthropic section below and remove the fallback-only block
 
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(ip);
-  if (!entry || entry.resetAt < now) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + 60_000 });
-    return true;
-  }
-  if (entry.count >= 20) return false;
-  entry.count++;
-  return true;
-}
+const rateLimiter = createRateLimiter({ limit: 20, windowMs: 60_000 });
 
 export async function POST(req: NextRequest) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
 
-  if (!checkRateLimit(ip)) {
+  if (!rateLimiter.check(ip)) {
     return new Response(JSON.stringify({ error: 'Rate limit exceeded' }), {
       status: 429,
       headers: { 'Content-Type': 'application/json' },

@@ -50,3 +50,12 @@ next-env.d.ts
 graphify-out/
 KITOGO_Website_v1.1.0.html
 memory/
+
+# AI tooling & scratch docs (not part of the application)
+.mcp.json
+AGENTS.md
+CLAUDE.md
+BUILD_COMPLETE.md
+DEMO_CHECKLIST.md
+HACKATHON.md
+QUICK_START.md
